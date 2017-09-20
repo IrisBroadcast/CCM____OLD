@@ -35,3 +35,7 @@ The IRIS Platform is licensed using an Open Source license. We are working on fi
 
 * Windows Server
 * MySQL or MariaDB database server
+
+## Availability
+
+The exisiting code is currently being cleaned for a first publication that will happen before the end of 2017. Please check back for updates.
