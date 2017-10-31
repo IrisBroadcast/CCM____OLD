@@ -1,0 +1,504 @@
+﻿@using CCM.Core.Helpers
+@model CCM.Web.Models.Home.HomeViewModel
+
+@{
+    ViewBag.Title = "title";
+    ViewBag.Angular = true;
+    var hasWriteRights = User.Identity.IsAuthenticated && (User.IsInRole(ApplicationConstants.Admin) || User.IsInRole("Remote"));
+}
+
+@section head
+{
+}
+
+@section bodyTop
+{
+    <div ng-controller="overviewController" ng-class="{'full-overview' : uiStateNightmode}">
+        <shortcut></shortcut>
+        <div class="feedback-banner" id="userFeedback" ng-hide="socketStatusHubGui.socketStatus">
+            @Resources.Socket_Connection_Is_Lost_With_Server, @Resources.Socket_Connection_Reconnect_Attempts: {{socketStatusHubGui.reconnectAttempts}}
+        </div>
+}
+
+@section search
+{
+    <div class="navbar-form navbar-right ccm-navbar-search" role="search">
+        <div class="form-group">
+            <input type="text" id="searchField" autofocus="autofocus" ng-model="searchString" ng-keydown="searchKeyUp($event.keyCode)" ng-model-options="{ debounce:250 }" class="form-control ccm-navbar-search--field" placeholder="@Resources.Search">
+            <button class="btn btn-default ccm-navbar-search--btn" ng-click="setSearch()">@Resources.Search</button>
+        </div>
+    </div>
+}
+
+<div>
+    <h2></h2>
+    <hr />
+    <div class="row">
+        <div class="col-md-2 list-ccm-navigation">
+            <ul class="filter-heading nav nav-pills nav-justified">
+                <!-- Filter headlines -->
+                <li class="active">
+                    <a href="#regions" data-toggle="tab">@Resources.Regions<div class="selected-name">({{regionName}})</div></a>
+                </li>
+                <li class="">
+                    <a href="#codecTypes" data-toggle="tab">@Resources.Codec_Types<div class="selected-name">({{codecTypeName}})</div></a>
+                </li>
+            </ul>
+            <div class="well tab-content">
+                <!-- Grouping Filter 1 -->
+                <div class="tab-pane ccm-tabpane-filters active" id="regions">
+                    <ul class="nav nav-stacked nav-pills hidden-xs">
+                        <li ng-click="setFilterRegion('')">
+                            <a href="#" class="ccm-tabpane-filter--link">@Resources.All</a>
+                        </li>
+                        @foreach (var region in Model.Regions)
+                        {
+                            <li ng-click="setFilterRegion('@region')" class="ccm-tabpane-filter--link">
+                                <a href="#">@region</a>
+                            </li>
+                        }
+                    </ul>
+                    <div class="dropdown visible-xs">
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="regionsDropDown" aria-expanded="true">{{regionName}}<span class="caret"></span></button>
+                        <ul class="dropdown-menu dropdown-filter-frontpage" role="menu" aria-labelledby="regionsDropDown">
+                            <li ng-click="setFilterRegion('')"><a href="#">@Resources.All</a></li>
+                            @foreach (var region in Model.Regions)
+                            {
+                                <li ng-click="setFilterRegion('@region')"><a href="#">@region</a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <!-- Grouping Filter 2 -->
+                <div class="tab-pane ccm-tabpane-filters" id="codecTypes">
+                    <ul class="nav nav-stacked nav-pills hidden-xs">
+                        <li ng-click="setFilterCodecType('')">
+                            <a href="#" class="ccm-tabpane-filter--link">@Resources.All</a>
+                        </li>
+                        @foreach (var codecType in Model.CodecTypes)
+                        {
+                            <li ng-click="setFilterCodecType('@codecType.Name')">
+                                <a href="#" class="ccm-tabpane-filter--link">
+                                    <span @(string.IsNullOrWhiteSpace(codecType.Color) ? string.Empty : string.Format("style=background-color:{0};", codecType.Color))>&nbsp;</span>
+                                    @codecType.Name
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                    <div class="dropdown visible-xs">
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="codecTypesDropDown" aria-expanded="true">{{codecTypeName}}<span class="caret"></span></button>
+                        <ul class="dropdown-menu dropdown-filter-frontpage" role="menu" aria-labelledby="codecTypesDropDown">
+                            <li ng-click="setFilterCodecType('')"><a href="#">@Resources.All</a></li>
+                            @foreach (var codecType in Model.CodecTypes)
+                            {
+                                <li ng-click="setFilterCodecType('@codecType.Name')">
+                                    <a href="#">
+                                        <span @(string.IsNullOrWhiteSpace(codecType.Color) ? string.Empty : string.Format("style=background-color:{0};", codecType.Color))>&nbsp;</span>
+                                        @codecType.Name
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-10 list-ccm-container">
+            <ul class="nav nav-pills nav-justified list-ccm-tabs">
+                <!-- Ongoing calls headline -->
+                <li class="active list-ccm-tab-ongoing">
+                    <a href="#ongoing" data-toggle="tab">
+                        <!-- &nbsp; -->
+                        <span id="callCount" class="list-ccm-tab-ongoing-count">{{filteredOnGoingCalls.length}}</span>&nbsp;<span class="list-ccm-tab-ongoing-text">@Resources.OngoingCalls</span>
+                        <div class="selected-name">&nbsp;</div>
+                    </a>
+                </li>
+                <!-- Registered UAs headline -->
+                <li class="list-ccm-tab-registered">
+                    <a href="#registered" data-toggle="tab">
+                        <span id="registeredCount" class="list-ccm-tab-registered-count">{{filteredRegisteredSips.length}}</span>&nbsp;<span class="list-ccm-tab-registered-text">@Resources.RegisteredSips</span>
+                        <div class="selected-name">&nbsp;</div>
+                    </a>
+                </li>
+            </ul>
+            <!-- TAB: Ongoing and history -->
+            <div class="tab-content list-ccm-tab-content">
+                <div class="tab-pane active list-ccm-tab-pane" id="ongoing">
+                    <div class="row">
+                        <div class="panel panel-default list-ccm-calls">
+                            <div class="panel-heading list-ccm-heading list-ccm-tab-panel-heading">
+                                <div class="row">
+                                    <div class="col-md-5 list-ccm-thead-headline" ng-click="changeOngoingCallSorting('FromDisplayName')" ng-class="{'list-ccm-thead-sort' : ongoingCallSort.column == 'FromDisplayName'}">@Resources.Caller</div>
+                                    <div class="col-md-5 list-ccm-thead-headline" ng-click="changeOngoingCallSorting('ToDisplayName')" ng-class="{'list-ccm-thead-sort' : ongoingCallSort.column == 'ToDisplayName'}">@Resources.Callee</div>
+                                    <div class="col-md-2 list-ccm-thead-headline text-right" ng-click="changeOngoingCallSorting('DurationSeconds')" ng-class="{'list-ccm-thead--sort' : ongoingCallSort.column == 'DurationSeconds'}">@Resources.Call_Duration&nbsp;<span class="glyphicon glyphicon-time" aria-hidden="true"></span></div>
+                                </div>
+                            </div>
+                            <!-- Ongoing calls -->
+                            <div class="panel-body-lp list-ccm-calls-ongoing">
+                                <div class="row panel-body-item list-ccm--bg-active"
+                                     ng-repeat="call in filteredOnGoingCalls = (onGoingCalls | filter: callFilter ) | orderBy:ongoingCallSort.column:ongoingCallSort.descending track by call.CallId">
+                                    <div class="col-md-5">
+                                        <span class="list-ccm--type-id" ng-style="{'background-color': call.FromCodecTypeColor}" title="{{call.FromCodecTypeName}}">&nbsp;</span>
+                                        <a class="list-ccm--sip-name" ng-if="call.FromId.length" href="#" ng-click="showSipInfo(call.FromId, $event)" title="{{call.FromSip}}">{{call.FromDisplayName}}</a>
+                                        <span class="list-ccm--sip-name" ng-if="!call.FromId.length" title="{{call.FromSip}}">{{call.FromDisplayName}}</span>
+                                        <span class="list-ccm--sip-location" ng-if="call.FromLocationName.length" title="{{call.FromLocationShortName}}">({{call.FromLocationName}})</span>
+                                        <div class="list-ccm--sip-comment">{{call.FromComment}}</div>
+                                    </div>
+
+                                    <div class="col-md-5">
+                                        <span class="glyphicon glyphicon-arrow-right list-ccm--call-dir-icon"></span>
+                                        <span class="list-ccm--type-id" ng-style="{'background-color': call.ToCodecTypeColor}" title="{{call.ToCodecTypeName}}">&nbsp;</span>
+                                        <a class="list-ccm--sip-name-to" ng-if="call.ToId.length" href="#" ng-click="showSipInfo(call.ToId, $event)" title="{{call.ToSip}}">{{call.ToDisplayName}}</a>
+                                        <span class="list-ccm--sip-name-to" ng-if="!call.ToId.length" title="{{call.ToSip}}">{{call.ToDisplayName}}</span>
+                                        <span class="list-ccm--sip-location" ng-if="call.ToLocationName.length" title="{{call.ToLocationShortName}}">({{call.ToLocationName}})</span>
+                                        <div class="list-ccm--sip-comment-to">{{call.ToComment}}</div>
+                                    </div>
+                                    <div class="col-md-2 text-right">
+                                        @if (User.IsInRole(ApplicationConstants.Admin))
+                                        {
+                                            <a href="@Url.Action("DeleteCall", "Call")/{{call.CallId}}" class="list-ccm--ongoing-time list-ccm--trash-call">{{call.StartedLocal | timeAgo:currentTime}}<span class="trash glyphicon-trash glyphicon"></span></a>
+                                        }
+                                        else
+                                        {
+                                            <span class="list-ccm--ongoing-time">{{call.StartedLocal | timeAgo:currentTime}}</span>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-heading list-ccm-heading list-ccm-tab-panel-heading">
+                                <div class="row">
+                                    <div class="col-md-12 col-title list-ccm-thead-headline">
+                                        <span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>&nbsp;@Resources.Latest_Closed_Calls
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Old calls / History -->
+                            <div class="panel-body-lp list-ccm-calls-history">
+                                <div class="row panel-body-item list-ccm--bg" ng-repeat="call in filteredOldCalls = (oldCalls | filter: callFilter ) track by $index">
+                                    <div class="col-md-5">
+                                        <span ng-style="{'background-color': call.FromCodecTypeColor}" class="list-ccm--type-id" title="{{call.FromCodecTypeName}}">&nbsp;</span>
+                                        <a ng-if="call.FromId.length" href="#" ng-click="showSipInfo(call.FromId, $event)" class="list-ccm--sip-name list-ccm--old-call" title="{{call.FromSip}}">{{call.FromDisplayName}}</a>
+                                        <span ng-if="!call.FromId.length" class="list-ccm--old-call" title="{{call.FromSip}}">{{call.FromDisplayName}}</span>
+                                        <span ng-if="call.FromLocationName.length" title="{{call.FromLocationShortName}}" class="list-ccm--sip-location">({{call.FromLocationName}})</span>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <span class="glyphicon glyphicon-arrow-right list-ccm--old-call list-ccm--call-dir-icon"></span>
+                                        <span ng-style="{'background-color': call.ToCodecTypeColor}" class="list-ccm--type-id" title="{{call.ToCodecTypeName}}">&nbsp;</span>
+                                        <a ng-if="call.ToId.length" href="#" ng-click="showSipInfo(call.ToId, $event)" class="list-ccm--sip-name-to list-ccm--old-call" title="{{call.ToSip}}">{{call.ToDisplayName}}</a>
+                                        <span ng-if="!call.ToId.length" class="list-ccm--sip-name-to list-ccm--old-call" title="{{call.ToSip}}">{{call.ToDisplayName}}</span>
+                                        <span ng-if="call.ToLocationName.length" title="{{call.ToLocationShortName}}" class="list-ccm--sip-location">({{call.ToLocationName}})</span>
+                                    </div>
+                                    <div class="col-md-3 text-right" ng-class="'class'|callTimeWarning:10000:call.Started:call.Ended">
+                                        <div class="list-ccm--old-call-time" title="{{ call.Duration }}">{{call.Started | date:'yyyy-MM-dd HH:mm:ss' }}</div>
+                                        <div class="list-ccm--old-call-time" title="{{ call.Duration }}">{{call.Ended | date:'yyyy-MM-dd HH:mm:ss' }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- TAB: Registered UAs -->
+                <div class="tab-pane list-ccm-tab-pane" id="registered">
+                    <div class="row">
+                        <div class="panel panel-default list-ccm-registered">
+                            <div class="panel-heading list-ccm-heading list-ccm-tab-panel-heading">
+                                <div class="row">
+                                    <div class="col-md-3 list-ccm-thead-headline" ng-click="changeRegisteredSorting('DisplayName')" ng-class="{'list-ccm-thead--sort' : registeredSort.column == 'DisplayName'}">@Resources.Identity</div>
+                                    <div class="col-md-3 list-ccm-thead-headline" ng-click="changeRegisteredSorting('Location')" ng-class="{'list-ccm-thead--sort' : registeredSort.column == 'Location'}">@Resources.Location</div>
+                                    <div class="col-md-6 list-ccm-thead-headline" ng-click="changeRegisteredSorting('Comment')" ng-class="{'list-ccm-thead--sort' : registeredSort.column == 'Comment'}">@Resources.Comment</div>
+                                </div>
+                            </div>
+
+                            <!-- RegisteredSips -->
+                            <div class="panel-body-lp list-ccm-registered-uas">
+                                <div class="row panel-body-item " ng-repeat="sip in filteredRegisteredSips = (registeredSips | filter: registeredSipsFilter) | orderBy:registeredSort.column:registeredSort.descending track by sip.Id " ng-class="{ true: 'list-ccm--bg-active', false: 'list-ccm--bg' } [sip.InCall]">
+                                    <div class="col-md-3" title="{{sip.Sip}}">
+                                        <span title="{{sip.CodecTypeName}}" class="list-ccm--reg-ua-type-id" ng-style="{'background-color': sip.CodecTypeColor}">&nbsp;</span>
+                                        <a ng-click="showSipInfo(sip.Id, $event)" href="#" class="list-ccm--sip-name list-ccm--reg-ua-name">{{sip.DisplayName}}</a>
+                                        <span ng-if="sip.InCall">
+                                            <span class="glyphicon glyphicon-arrow-right list-ccm--reg-ua-call-dir-icon"></span>
+                                            <a ng-if="sip.InCallWithId.length" ng-click="showSipInfo(sip.InCallWithId, $event)" href="#"
+                                               title="{{sip.InCallWithSip}}" class="list-ccm--reg-ua-name-to">
+                                                {{sip.InCallWithName}}
+                                            </a>
+                                            <span ng-if="!sip.InCallWithId.length" title="{{sip.InCallWithSip}}"
+                                                  class="list-ccm--reg-ua-name-to--less">{{sip.InCallWithName}}</span>
+                                        </span>
+                                    </div>
+                                    <div class="col-md-3 list-ccm--reg-ua-location" title="{{sip.LocationShortName}}">
+                                        {{sip.Location}}
+                                    </div>
+
+                                    @if (hasWriteRights)
+                                    {
+                                        <div class="col-md-5 list-ccm--reg-ua-comment" title="{{sip.Comment ? '@Resources.Edit_Comment' : '@Resources.Add_Comment'}}" ng-dblclick="editComment(sip.Id)" ng-class="sip.Comment ? 'list-ccm--reg-ua-comment--edit' : 'list-ccm--reg-ua-comment--edit-empty'"><span>{{sip.Comment}}&nbsp;</span></div>
+                                    }
+                                    else
+                                    {
+                                        <div class="col-md-5 list-ccm--reg-ua-comment">{{sip.Comment}}&nbsp;</div>
+                                    }
+                                    <div class="col-md-1 list-ccm--reg-ua-logo-small" ng-if="sip.Image.length > 0">
+                                        <img ng-src="@Url.Content("~/Images/Agents")/{{sip.Image}}" alt="" />
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="registeredSipModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="sipInfo.html">
+
+    <!-- Navigation -->
+    <ul class="nav nav-tabs ccm-ui-pop-nav">
+        <li class="active"><a href="#reginfo" data-toggle="tab">@Resources.Information</a></li>
+        <li id="codecControlTab" ng-show="codecOnline"><a href="#control" data-toggle="tab">@Resources.Codec_Control</a></li>
+    </ul>
+
+    <!-- Header, codecname, logo, close btn -->
+    <div class="modal-header ccm-ui-pop-header">
+        <button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
+
+        <div class="pull-right pop-ccm-agent-logo" ng-show="info.Image">
+            <img ng-src="/Images/Agents/{{info.Image}}" alt="" />
+        </div>
+
+        <h4 class="modal-title">{{info.DisplayName}}</h4>
+    </div>
+
+    <!-- Inspect codec -->
+    <div class="modal-body ccm-ui-pop-tab">
+        <div class="tab-content">
+
+            <!-- Information -->
+            <div class="tab-pane ccm-ui-pop-tab--information active" id="reginfo">
+                <div class="row">
+                    <label class="col-md-3">@Resources.Status</label>
+                    <div class="col-lg-9">
+                        <div ng-show="info.InCall">
+                            @Resources.ConnectedTo:&nbsp;{{info.InCallWithName}}
+                        </div>
+                        <div ng-hide="info.InCall">
+                            @Resources.Disconnected
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-3">@Resources.Comment</label>
+                    <div class="col-lg-9">
+                        {{info.Comment}}
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-3">@Resources.Location</label>
+                    <div class="col-lg-9">
+                        {{info.LocationName}}
+                        <span ng-show="info.LocationComment.length > 0">({{info.LocationComment}})</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-3">@Resources.City</label>
+                    <div class="col-lg-9">
+                        {{info.CityName}}
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-3">@Resources.Region</label>
+                    <div class="col-lg-9">
+                        {{info.RegionName}}
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-3">@Resources.Ip_Address</label>
+                    <div class="col-lg-9">
+                        {{info.Ip}}
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-3">@Resources.UserAgent</label>
+                    <div class="col-lg-9">
+                        {{info.UserAgentHeader}}
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-3">@Resources.SIP</label>
+                    <div class="col-lg-9">
+                        {{info.Sip}}
+                    </div>
+                </div>
+                <div class="row" ng-show="info.FinalUserInterfaceLink.length > 0">
+                    <label class="col-md-3">@Resources.Web_Interface</label>
+                    <div class="col-lg-9">
+                        <a href="#" ng-click="openAdmin(info.FinalUserInterfaceLink, info.Width, info.Height, info.UseScrollbars)" ng-hide="!canAx && info.ActiveX">
+                            {{info.FinalUserInterfaceLink}}
+                        </a>
+                        <span ng-show="!canAx && info.ActiveX">{{info.FinalUserInterfaceLink}} (@Resources.Requires_Activex)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Codec control -->
+            <div class="tab-pane ccm-ui-pop-tab--control" id="control">
+                <ul class="nav nav-tabs">
+                    <li class="active" id="inputsTab"><a href="#inputtab" data-toggle="tab">@Resources.Inputs</a></li>
+                    <li id="adminTab"><a href="#admintab" data-toggle="tab">@Resources.Administration</a></li>
+                    <li><a href="#statusTab" data-toggle="tab">Status</a></li>
+                    <li><a href="#audioModeTab" data-toggle="tab">Audio mode</a></li>
+                </ul>
+
+                <div class="tab-content">
+
+                    <div class="tab-pane active" id="inputtab">
+
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="ccm-ui-popmixer--unit" ng-repeat="input in inputs track by input.id">
+                                    <button class="btn" ng-class="input.stateClass" ng-disabled="input.disabled" ng-click="toggleInput(input)">
+                                        ON{{input.number}}
+                                    </button>
+                                    <div class="widgets">
+                                        <div class="level-gain">
+                                            <div class="db-value">
+                                                {{input.value}}
+                                                <progress class="progress" style="width:80%" max="{{ info.InputMaxDb - info.InputMinDb }}" min="0" value="{{ input.value - info.InputMinDb }}"></progress>
+                                            </div>
+                                            <div class="row">
+                                                <button class="btn btn-default" ng-click="setGainLevel(input, 1)">
+                                                    <span class="value">+</span>
+                                                </button>
+                                            </div>
+                                            <div class="row">
+                                                <button class="btn btn-default" ng-click="setGainLevel(input, -1)">
+                                                    <span class="value">-</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <hr />
+                        </div>
+
+                        <div class="row">
+                            <div class="ccm-ui-popmixer--unit-gpo col-md-6">
+                                <button ng-repeat="gpo in gpos" class="btn gpo" ng-class="{'btn-success': gpo.Active == true, 'btn-default': gpo.Active == false }" ng-click="setGpo(gpo)">{{gpo.Name}}</button>
+                            </div>
+
+                            <div class="ccm-ui-popmixer--unit-vu col-md-6">
+                                <div class="vu-group vu-group--left">
+                                    <vu-meter level="txL"></vu-meter>
+                                    <vu-meter level="txR"></vu-meter>
+                                </div>
+                                <div class="vu-group vu-group--right">
+                                    <vu-meter level="rxL"></vu-meter>
+                                    <vu-meter level="rxR"></vu-meter>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="admintab">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4>@Resources.Codec_Presets</h4>
+                                <div>@Resources.Loaded_Preset: {{loadedPreset}}</div>
+                                <div>
+                                    <select class="form-control" ng-model="presetToLoad" ng-options="preset.Name for preset in info.CodecPresets track by preset.CodecPresetId"></select>
+                                    <button class="btn btn-default" ng-click="loadPreset(presetToLoad)">@Resources.Load</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <hr />
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div>
+                                    <label>
+                                        <input type="checkbox" ng-model="rebootconfirm1" />
+                                        @Resources.Codec_Reboot_First_Confirm
+                                    </label>
+                                </div>
+                                <div>
+                                    <label>
+                                        <input type="checkbox" ng-model="rebootconfirm2" />
+                                        @Resources.Codec_Reboot_Second_Confirm
+                                    </label>
+                                </div>
+                                <div>
+                                    <button ng-disabled="!rebootconfirm1 || !rebootconfirm2" class="btn btn-danger" ng-click="reboot(info)">@Resources.Reboot</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="statusTab">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h5>@Resources.Line_Status</h5>
+                            </div>
+                            <div class="col-md-9">
+                                <select id="line" ng-model="selectedLine" ng-options="line.number for line in lines track by line.id"></select>
+                                <button class="btn btn-default" ng-click="getLineStatus(selectedLine)">@Resources.Get</button>
+                            </div>
+                        </div>
+                        <textarea class="ccm-ui-pop--logtextarea" id="lineStatus" ng-model="lineStatusArea"></textarea>
+                    </div>
+
+                    <div class="tab-pane" id="audioModeTab">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h5>@Resources.Audio_Mode</h5>
+                            </div>
+                            <div class="col-md-9">
+                                <button class="btn btn-default" ng-click="getAudioMode()">@Resources.Get</button>
+                            </div>
+                        </div>
+                        <textarea class="ccm-ui-pop--logtextarea" id="audioMode" ng-model="audioModeArea"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</script>
+
+
+@section bodyBottom
+{
+</div>
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/home")
+
+    <script>
+        $(document).on('hidden.bs.modal', function (e) {
+            $(e.target).removeData('bs.modal');
+        });
+
+        $(document).ready(function () {
+            $("#searchField").focus();
+        });
+    </script>
+}

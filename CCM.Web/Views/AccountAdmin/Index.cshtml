@@ -1,0 +1,114 @@
+﻿@model CCM.Web.Models.AccountAdmin.AccountAdminViewModel
+@using CCM.Core.Security
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "title";
+    string currentUser = User.Identity.GetUserId();
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+        var filter = '@Model.Filter';
+        $(document).ready(function () {
+            if (filter !== "all") {
+                $('.user').not('.' + filter).hide();
+            }
+            $('input:radio[value="' + filter + '"]').prop('checked', true);
+
+            $(document).ready(function () {
+                $("#search").focus();
+            });
+        });
+
+        $('input:radio').change(function (e) {
+            if (this.value === "all") {
+                $('.user').show();
+            } else {
+                $('.user').not('.' + this.value).hide();
+                $('.' + this.value).show();
+            }
+        });
+    </script>
+}
+
+@section search
+{
+    @using (Html.BeginForm("Index", "AccountAdmin", FormMethod.Post, new { @class = "navbar-form navbar-right ccm-navbar-search", role = "search" }))
+    {
+        <div class="form-group">
+            <input type="text" id="search" name="search" autofocus class="form-control ccm-navbar-search--field" placeholder="@Resources.Search_Account">
+            <button type="submit" class="btn btn-default ccm-navbar-search--btn">@Resources.Search</button>
+        </div>
+    }
+}
+
+<div class="row">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <span class="navbar-brand">@Resources.Accounts</span>
+            </div>
+            <div class="navbar admin-page">
+                <ul class="nav navbar-nav nav-pills">
+                    <li>@Html.ActionLink(Resources.New_Account, "Create", "AccountAdmin")</li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<div class="row">
+    <div class="panel panel-default list-ccm">
+        <div class="panel-heading list-ccm-heading">
+            <div class="text-right">
+                @Resources.Show_User_Type
+                <label class="radio-inline">
+                    @Html.RadioButton("userType", "all")@Resources.All
+                </label>
+                @foreach (var type in Enum.GetValues(typeof(UserType)))
+                {
+                    <label class="radio-inline">
+                        @Html.RadioButton("userType", type.ToString())
+                        @Resources.ResourceManager.GetString(type.ToString())
+                    </label>
+                }
+            </div>
+            <div class="row">
+                <div class="col-md-3">@Resources.UserName</div>
+                <div class="col-md-8">@Resources.Name / @Resources.Comment</div>
+            </div>
+        </div>
+        <div class="panel-body-lp">
+            @{
+                var lastGuid = Guid.Empty;
+            }
+
+            @foreach (var account in Model.Users)
+            {
+                if (account.CodecType != null && account.CodecType.Id != lastGuid)
+                {
+                    <div class="row panel-body-item user list-ccm-group-header @account.UserType.ToString()" style="border-color: @account.CodecType.Color">
+                        <div class="col-md-12">@account.CodecType.Name</div>
+                    </div>
+
+                    lastGuid = account.CodecType.Id;
+                }
+
+                <div class="row panel-body-item user @account.UserType.ToString()">
+                    <div class="col-md-3">@account.UserName <span class="@(account.AccountLocked ? "glyphicon glyphicon-lock" : string.Empty)"></span></div>
+                    <div class="col-md-7">@account.FirstName @account.LastName @((!string.IsNullOrWhiteSpace(account.FirstName) || !string.IsNullOrWhiteSpace(account.LastName)) && !string.IsNullOrWhiteSpace(account.Comment) ? " - " : string.Empty) @account.Comment</div>
+                    <div class="col-md-1">@Resources.ResourceManager.GetString(account.UserType.ToString())</div>
+                    <div class="col-md-1 text-right list-ccm-icongroup">
+                        @Html.ActionLink(" ", "Edit", "AccountAdmin", new { @id = account.Id }, new { @class = "glyphicon glyphicon-pencil list-ccm-inlineicon" })
+                        @if (account.Id != currentUser)
+                        {
+                            @Html.ActionLink(" ", "Delete", "AccountAdmin", new { @id = account.Id }, new { @class = "glyphicon glyphicon-trash list-ccm-inlineicon" })
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

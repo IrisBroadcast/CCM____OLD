@@ -1,0 +1,15 @@
+﻿
+<form method="post" action="/@ViewData["Controller"]" class="navbar-form navbar-right">
+    <div class="form-group">
+        <input type="text" id="search" name="search" autofocus class="form-control" placeholder="@Resources.Search" value="@ViewData["SearchString"]">
+    </div>
+    <button type="submit" class="btn btn-default">@Resources.Search</button>
+</form>
+
+@*@using (Html.BeginForm("Index", "Studio", FormMethod.Post, new { @class = "navbar-form navbar-right", role = "search" }))
+{
+    <div class="form-group">
+        <input type="text" id="search" name="search" autofocus class="form-control" placeholder="@Resources.Search" value="@ViewBag.SearchString">
+    </div>
+    <button type="submit" class="btn btn-default">@Resources.Search</button>
+}*@

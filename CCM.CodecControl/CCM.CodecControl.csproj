@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{90FCE828-3BFE-4879-B8D2-AE0DF4677D25}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CCM.CodecControl</RootNamespace>
+    <AssemblyName>CCM.CodecControl</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Production|AnyCPU'">
+    <OutputPath>bin\Production\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CodecManager.cs" />
+    <Compile Include="Helpers\ConvertHelper.cs" />
+    <Compile Include="Helpers\SocketExtensions.cs" />
+    <Compile Include="ICodecApi.cs" />
+    <Compile Include="Mandozzi\Umac\UmacCallInfo.cs" />
+    <Compile Include="Mandozzi\Umac\UmacCallState.cs" />
+    <Compile Include="Mandozzi\Umac\Sdk\Umac.cs" />
+    <Compile Include="Mandozzi\Umac\UmacApi.cs" />
+    <Compile Include="Mandozzi\Umac\UmacClient.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Commands\Base\CommandBase.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Commands\CommandIkusNetGetDecoderAudioMode.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Commands\CommandIkusNetGetEncoderAudioMode.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Commands\CommandIkusNetGetVuMeters.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Commands\ConnectCommandBase.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Enums\IkusNetDspAudioAlgorithm.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Responses\IkusNetGetDecoderAudioModeResponse.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Responses\IkusNetGetDeviceNameResponse.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Responses\IkusNetGetEncoderAudioModeResponse.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Responses\IkusNetGetLoadedPresetNameResponse.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Responses\AcknowledgeResponse.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Responses\ResponseHeader.cs" />
+    <Compile Include="Prodys\IkusNet\IkusNetApi.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Enums\Command.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Enums\IkusNetCallContent.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Enums\IkusNetCodec.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Enums\IkusNetIPCallType.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Enums\IkusNetLine.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Enums\IkusNetLineStatus.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Enums\IkusNetStreamingDisconnectionReason.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Commands\Base\ICommandBase.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\IkusNet.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Commands\CommandIkusNetCall.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Commands\CommandIkusNetGetGpi.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Commands\CommandIkusNetGetGpo.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Responses\IkusNetGetGpioResponse.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Commands\CommandIkusNetGetInputEnabled.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Responses\IkusNetGetInputEnabledResponse.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Commands\CommandIkusNetGetInputGainLevel.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Responses\IkusNetGetInputGainLevelResponse.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Commands\CommandIkusNetGetLineStatus.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Responses\IkusNetGetLineStatusResponse.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Commands\CommandIkusNetGetLoadedPresetName.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Responses\IkusNetGetVumetersResponse.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Commands\CommandIkusNetHangUp.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Commands\CommandIkusNetPresetLoad.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Commands\CommandIkusNetReboot.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Commands\CommandIkusNetSetGPO.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Commands\CommandIkusNetSetInputEnabled.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Commands\CommandIkusNetSetInputGainLevel.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Commands\CommandIkusNetSysSetDeviceName.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Commands\CommandIkusNetSysGetDeviceName.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Commands\CSConnect.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Commands\CsConnect2.cs" />
+    <Compile Include="Prodys\IkusNet\Sdk\Responses\IkusNetStatusResponseBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CCM.Core\CCM.Core.csproj">
+      <Project>{2b04cc56-7dfe-40f0-ba17-21d8b93e0b75}</Project>
+      <Name>CCM.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

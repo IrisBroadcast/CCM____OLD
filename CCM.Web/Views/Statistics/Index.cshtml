@@ -1,0 +1,229 @@
+﻿@model CCM.Web.Models.Statistics.StatisticsFilterModel
+
+@{
+    ViewBag.Title = Resources.Statistics;
+}
+
+@section scripts
+{
+    @*<script src="@Url.Content("~/Scripts/statistics2.js")"></script>*@
+    @Scripts.Render("~/bundles/statistics")
+}
+
+<div class="row">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <span class="navbar-brand">@Resources.Statistics</span>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" role="tablist">
+                <ul class="nav navbar-nav nav-pills">
+                    <li role="presentation" class="active"><a href="#locationTab" data-toggle="tab">@Resources.Locations</a></li>
+                    <li role="presentation"><a href="#regionTab" data-toggle="tab">@Resources.Regions</a></li>
+                    <li role="presentation"><a href="#sipAccountsTab" data-toggle="tab">@Resources.Sip_Accounts</a></li>
+                    <li role="presentation"><a href="#codecTypesTab" data-toggle="tab">@Resources.Codec_Types</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right nav-pills">
+                    <li role="presentation" class="pull-right">@Html.ActionLink(Resources.Statistics + " (v1)", "Index")</li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<div class="row statistic-dates">
+    <div class="col-md-3">
+        <label for="startDate" class="control-label">@Resources.From:
+            <div class="input-group date" id="startdatetimepicker">
+                <input type="text" class="form-control" id="startDate"/>
+                <span class="input-group-addon">
+                    <span class="glyphicon-calendar glyphicon"></span>
+                </span>
+            </div>
+        </label>
+    </div>
+    <div class="col-md-3">
+        <label for="endDate" class="control-label">@Resources.To:
+            <div class="input-group date" id="enddatetimepicker">
+                <input type="text" class="form-control" id="endDate"/>
+                <span class="input-group-addon">
+                    <span class="glyphicon-calendar glyphicon"></span>
+                </span>
+            </div>
+        </label>
+    </div>
+</div>
+<hr />
+<div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="locationTab">
+        <div class="row statistic-filters">
+            <div class="col-md-3">
+                <label class="control-label" for="Regions">@Resources.Region:
+                    @Html.DropDownListFor(m => m.Regions, new SelectList(Model.Regions, "Id", "Name"), new { @class = "form-control" })
+                </label>
+            </div>
+            <div class="col-md-3">
+                <label for="Owners" class="control-label">@Resources.Owner:
+                    @Html.DropDownListFor(m => m.Owners, new SelectList(Model.Owners, "Id", "Name"), new { @class = "form-control" })
+                </label>
+            </div>
+            <div class="col-md-3">
+                <label for="CodecTypes" class="control-label">@Resources.Codec_Type:
+                    @Html.DropDownListFor(m => m.CodecTypes, new SelectList(Model.CodecTypes, "Id", "Name"), new { @class = "form-control" })
+                </label>
+            </div>
+            <div class="col-md-3">
+                <label for="locationSearchBtn">&nbsp;
+                    <button class="btn btn-primary" id="locationSearchBtn">@Resources.Load</button>
+                </label>
+            </div>
+        </div>
+
+        <div class="tabpanel" id="locationChartTabs">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#locationCallsTab" data-toggle="tab" data-target-tab="locationCallsTab">@Resources.Calls</a></li>
+                <li role="presentation"><a href="#locationTimeTab" data-toggle="tab" data-target-tab="locationTimeTab">@Resources.Call_Time</a></li>
+                <li role="presentation"><a href="#locationSimultaneousTab" data-toggle="tab" data-target-tab="locationSimultaneousTab">@Resources.Call_Simultaneous</a></li>
+                <li role="presentation"><a href="#locationSim24HourTab" data-toggle="tab" data-target-tab="locationSim24HourTab">@Resources.Call_Sim24Hour</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="locationCallsTab">
+                    <div class="row">
+                        <div class="col-md-12" id="locationNumberOfCallsChartDiv" style="min-height: 600px;">
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="locationTimeTab">
+                    <div class="row">
+                        <div class="col-md-12" id="locationTotalTimeForCallsChartDiv" style="min-height: 600px;">
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="locationSimultaneousTab">
+                    <div class="row">
+                        <div class="col-md-12" id="locationMaxSimultaneousCallsChartDiv" style="min-height: 600px;">
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="locationSim24HourTab">
+                    <div class="row">
+                        <div class="col-md-12" id="locationSim24HourChartDiv" style="min-height: 600px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div role="tabpanel" class="tab-pane" id="regionTab">
+        <div class="row statistic-filters">
+            <div class="col-md-10">
+                <label class="control-label" for="Regions">@Resources.Region:
+                    @Html.DropDownListFor(m => m.Regions, new SelectList(Model.Regions, "Id", "Name"), new { @class = "form-control", @id = "regionRegions" })
+                </label>
+            </div>
+            <div class="col-md-2">
+                <label class="control-label" for="regionSearchBtn">&nbsp;
+                    <button class="btn btn-primary" id="regionSearchBtn">@Resources.Load</button>
+                <label>
+            </div>
+        </div>
+
+        <div class="tabpanel" id="regionChartTabs">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#regionCallsTab" data-toggle="tab" data-target-tab="regionCallsTab">@Resources.Calls</a></li>
+                <li role="presentation"><a href="#regionTimeTab" data-toggle="tab" data-target-tab="regionTimeTab">@Resources.Call_Time</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="regionCallsTab">
+                    <div class="row">
+                        <div class="col-md-12" id="regionNumberOfCallsChartDiv" style="min-height: 600px;">
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="regionTimeTab">
+                    <div class="row">
+                        <div class="col-md-12" id="regionTimeChartDiv" style="min-height: 600px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div role="tabpanel" class="tab-pane" id="sipAccountsTab">
+        <div class="row statistic-filters">
+            <div class="col-md-10">
+                <label class="control-label">@Resources.SIP:
+                    @Html.DropDownListFor(m => m.Users, new SelectList(Model.Users, "Id", "Username"), new { @class = "form-control", @id = "sipAccountsAccounts" })
+                </label>
+            </div>
+            <div class="col-md-2">
+                <label class="control-label" for="sipAccountsSearchBtn">&nbsp;
+                    <button class="btn btn-primary" id="sipAccountsSearchBtn">@Resources.Load</button>
+                </label>
+            </div>
+        </div>
+
+        <div class="tabpanel" id="sipAccountsChartTabs">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#sipAccountsCallsTab" data-toggle="tab" data-target-tab="sipAccountsCallsTab">@Resources.Call</a></li>
+                <li role="presentation"><a href="#sipAccountsTimeTab" data-toggle="tab" data-target-tab="sipAccountsTimeTab">@Resources.Call_Time</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="sipAccountsCallsTab">
+                    <div class="row">
+                        <div class="col-md-12" id="sipAccountsNumberOfCallsChartDiv" style="min-height: 600px;">
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="sipAccountsTimeTab">
+                    <div class="row">
+                        <div class="col-md-12" id="sipAccountsTimeChartDiv" style="min-height: 600px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div role="tabpanel" class="tab-pane" id="codecTypesTab">
+        <div class="row statistic-filters">
+            <div class="col-md-10">
+                <label class="control-label">@Resources.Codec_Type:
+                    @Html.DropDownListFor(m => m.CodecTypes, new SelectList(Model.CodecTypes, "Id", "Name"), new { @class = "form-control", @id = "codecTypesCodecTypes" })
+                </label>
+            </div>
+            <div class="col-md-2">
+                <label class="control-label" for="codecTypesSearchBtn">&nbsp;
+                    <button class="btn btn-primary" id="codecTypesSearchBtn">@Resources.Load</button>
+                </label>
+            </div>
+        </div>
+
+        <div class="tabpanel" id="codecTypesChartTabs">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#codecTypesCallsTab" data-toggle="tab" data-target-tab="codecTypesCallsTab">@Resources.Calls</a></li>
+                <li role="presentation"><a href="#codecTypesTimeTab" data-toggle="tab" data-target-tab="codecTypesTimeTab">@Resources.Call_Time</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="codecTypesCallsTab">
+                    <div class="row">
+                        <div class="col-md-12" id="codecTypeNumberOfCallsChartDiv" style="min-height: 600px;">
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="codecTypesTimeTab">
+                    <div class="row">
+                        <div class="col-md-12" id="codecTypeTimeChartDiv" style="min-height: 600px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

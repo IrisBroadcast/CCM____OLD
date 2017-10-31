@@ -1,41 +1,52 @@
-# IRIS Broadcast Platform
+The IRIS Call Control Manager and discovery service - CCM
+=========================================================
 
-The IRIS Broadcast Platform is a management software for live broadcast using ACIP-compatible codec equipment in a professional radio environment.  A versatile and extensible solution based on many years of experience and thousands of hours of live radio produced.
+* Web Site: https://www.irisbroadcast.org
+* Github: https://github.com/irisbroadcast
 
-## Platform-independent user friendly user interface
+This is the code for the IRIS Call Control Manager and Discovery
+service developed by Sveriges Radio AB in Sweden. This code has
+been in production for many years and we're proud to share it
+with a larger community!
 
-Built with the user in focus, IRIS Broadcast delivers a lot of flexibility in a graphical user interface built to support a professional broadcast production. Delivered as a web-based application, the monitor can be used on many devices – from mobile units to wall displays updated in real time.
+Release plan after 1.0
+======================
 
-## Modular design 
+This first release is a first, but important, step for us as
+maintainers of this Open Source project. The code is licensed
+using the BSD 3-clause license and we have gone through the process
+internally of releasing in-house software as Open Source.
 
-The platform consists of several modules that together support the contribution network. IRIS Codec Call  Monitor and IRIS Discovery are the management platforms. IRIS Connect is the companion SIP server configuration for the Kamailio Open Source SIP server.
+We will now work to move our in-house development to github
+and move our production servers to the Open Source code. This
+means that we will release a new set of code at some point
+during the first half of 2018 and from that point continue
+development in the open on github.
 
-## Free to use, modify and put in production
+The changes between the 1.0 release and the coming version will
+not be committed to the github repository until we have a new
+process for our in-house development.
 
-The IRIS Platform is licensed using an Open Source license. We are working on finding out which one, based on the libraries used in building the software. The license will mean that IRIS Broadcast can be freely used in your production, also giving you the rights to modify the software as you wish. We want to build a strong community surrounding the platform and invite you to participate!
+Documentation
+=============
+This is an area where we need help. As an in-house project
+managed by a small and dedicated team, documentation, especially
+in english, has not been produced - like how-to's, installation
+guides and FAQs. Join the discussion on the github issue tracker
+and the coming mailing lists to help us. 
 
-# IRIS Codec Call Monitor
+License
+=======
 
-## Features
+IRIS CCM and Discovery Service is (C) Sveriges Radio AB, Stockholm, Sweden 2017
+The code is licensed under the BSD 3-clause license.
 
-* Realtime monitoring of all active sessions, including details about the sessions
-* Check availability of all connected devices
-* Optimize call setup based on network properties, equipment capability
-* Integration with many different codecs
-* SIP server configuration optimised for live radio contribution
+The license for CCM is in the LICENSE.txt file
 
-## Benefits
+3rd party libraries
+===================
+The repository contains 3rd party javascript libraries that are included
+for convience. In a future release, these will not be included
+but downloaded by scripts. These libraries have their own
+copyright and licenses.
 
-* Best possible audio used in every session
-* Gives the master control room an overview of current sessions
-* Get statistics over usage per codec type, region or user
-* Helps users find available codecs
-
-## Requirements
-
-* Windows Server
-* MySQL or MariaDB database server
-
-## Availability
-
-The exisiting code is currently being cleaned for a first publication that will happen before the end of 2017. Please check back for updates.

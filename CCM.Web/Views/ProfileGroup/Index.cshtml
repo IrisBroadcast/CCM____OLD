@@ -1,0 +1,100 @@
+﻿@using CCM.Core.Helpers
+@model IList<CCM.Core.Entities.ProfileGroup>
+
+@{
+    ViewBag.Title = Resources.ProfileGroups;
+}
+
+@section scripts {
+    <script type="text/javascript">
+
+        $(function() {
+            $('#nameColumn').on('click', function() {
+                if ($('#SortBy').val() !== "0") {
+                    $('#Direction').val("0");
+                } else if ($('#Direction').val() === "1") {
+                    $('#Direction').val("0");
+                } else {
+                    $('#Direction').val("1");
+                }
+
+                $('#SortBy').val("0");
+                $('#searchForm').submit();
+            });
+
+        });
+    </script>
+}
+
+@section search {
+    @using (Html.BeginForm("Index", "ProfileGroup", FormMethod.Post, new { @class = "navbar-form navbar-right", role = "search", @id = "searchForm" }))
+    {
+        <div class="form-group">
+            <input type="text" id="search" name="search" autofocus class="form-control ccm-navbar-search--field" placeholder="@Resources.Search" value="@ViewBag.SearchString">
+            <button type="submit" class="btn btn-default ccm-navbar-search--btn">@Resources.Search</button>
+        </div>
+    }
+}
+
+<div class="row">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <span class="navbar-brand">@Resources.ProfileGroups</span>
+            </div>
+            <div class="navbar admin-page" >
+                @if (User.IsInRole(ApplicationConstants.Admin))
+                {
+                    <ul class="nav navbar-nav nav-pills">
+                        <li>@Html.ActionLink(Resources.New_ProfileGroup, "Create", "ProfileGroup")</li>
+                    </ul>
+                }
+            </div>
+        </div>
+    </nav>
+</div>
+
+<div class="row">
+    <div class="panel panel-default">
+        <div class="panel-heading list-ccm-heading">
+            <div class="row">
+                <div class="col-md-11 sort-column" id="nameColumn">@Resources.Name</div>
+                <div class="col-md-1"></div>
+            </div>
+        </div>
+        <div class="panel-body-lp">
+            @foreach (var profilegroup in Model)
+            {
+                <div class="">
+                    <div class="panel-body-item row">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#@profilegroup.Id">
+                            <div class="col-md-11">@profilegroup.Name</div>
+
+                            <div class="col-md-1 text-right">
+                                @if (User.IsInRole(ApplicationConstants.Admin))
+                                {
+                                    @Html.ActionLink(" ", "Edit", "ProfileGroup", new { @id = profilegroup.Id }, new { @class = "glyphicon glyphicon-pencil" })
+                                    @Html.Raw("&nbsp;&nbsp;&nbsp;")
+                                    @Html.ActionLink(" ", "Delete", "ProfileGroup", new { @id = profilegroup.Id }, new { @class = "glyphicon glyphicon-trash" })
+                                }
+                            </div>
+                        </a>
+                    </div>
+                    <div class="row panel-collapse collapse well" id="@profilegroup.Id">
+                        <div class="col-md-12 panel-body">
+                            <div class="col-md-4">
+                                <dl>
+                                    <dt>@Resources.Profiles</dt>
+                                    @foreach (var profile in profilegroup.Profiles)
+                                    {
+                                        <dd>@profile.Name</dd>
+                                    }
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,113 @@
+﻿@using System.Collections
+@using CCM.Core.Cache
+@using CCM.Core.Entities
+@using CCM.Core.Entities.Specific
+@model CCM.DiscoveryApi.Controllers.CacheViewModel
+@{
+    Layout = null;
+}
+
+<div>
+    <div>
+        <p>Cachename: @Model.Name</p>
+        <p>Hash code: @Model.HashCode</p>
+        <p>Antal cachade object: @Model.Count</p>
+    </div>
+
+    <table>
+
+        <thead>
+        <tr>
+            <td>Cachenyckel</td>
+            <td>Cachad typ</td>
+            <td>Antal objekt</td>
+        </tr>
+        </thead>
+
+        <tbody>
+        @foreach (var cachedItem in Model.CachedItems)
+        {
+            <tr>
+                <td>@cachedItem.CacheKey</td>
+                <td>@cachedItem.CachedType</td>
+                <td>@cachedItem.ListCount</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    @foreach (var cachedItem in Model.CachedItems)
+    {
+        <hr />
+
+        var cachedList = cachedItem.CachedObject as IList;
+        if (cachedList != null)
+        {
+            <p>@cachedItem.CacheKey (@cachedList.Count)</p>
+
+            <table>
+                @foreach (var row in cachedList)
+                {
+                    <tr>
+                        @if (row is RegisteredSipOnline)
+                        {
+                            var regsip = row as RegisteredSipOnline;
+                            <td>@regsip.DisplayName (@regsip.Sip)</td>
+                            <td>@regsip.Updated.ToString("yyyy-MM-dd HH:mm:ss.fff")</td>
+                        }
+                        else if (row is OldCall)
+                        {
+                            var call = row as OldCall;
+                            <td>@call.FromDisplayName (@call.FromSip)</td>
+                            <td>@call.ToDisplayName (@call.ToSip)</td>
+                            <td>@call.Started.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                            <td>@call.Ended.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                        }
+                        else if (row is OnGoingCall)
+                        {
+                            var call = row as OnGoingCall;
+                            <td>@call.FromDisplayName (@call.FromSip)</td>
+                            <td>@call.ToDisplayName (@call.ToSip)</td>
+                            <td>@call.Started.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                        }
+                        else if (row is Setting)
+                        {
+                            var setting = row as Setting;
+                            <td>@setting.Name</td>
+                            <td>@setting.Value</td>
+                            <td>@setting.UpdatedOn.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                        }
+                        else if (row is AvailableFilter)
+                        {
+                            var filter = row as AvailableFilter;
+                            <td>@filter.Name</td>
+                            <td>@string.Join(", ", filter.Options)</td>
+                        }
+                        else if (row is ProfileNameAndSdp)
+                        {
+                            var profile = row as ProfileNameAndSdp;
+                            <td>@profile.Name</td>
+                        }
+                        else if (row is CachedRegisteredSip)
+                        {
+                            var regsip = row as CachedRegisteredSip;
+                            <td>@regsip.DisplayName (@regsip.Sip)</td>
+                            <td>@regsip.Updated.ToString("yyyy-MM-dd HH:mm:ss.fff")</td>
+                        }
+                        else if (row is CacheMessage)
+                        {
+                            var msg = row as CacheMessage;
+                            <td>@msg.Id</td>
+                            <td>@msg.Operation</td>
+                        }
+                        else
+                        {
+                            <td>@row</td>
+                        }
+                    </tr>
+                }
+            </table>
+        }
+    }
+
+</div>

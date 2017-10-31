@@ -1,0 +1,125 @@
+﻿@using CCM.Web.Models.Log
+@model LogViewModel
+@{
+    ViewBag.Title = "Logs";
+}
+
+<h2>Logs</h2>
+<div>
+    @Html.ActionLink("Web log", "Index", "Log", new { application = CcmApplications.Web }, new { }) |
+    @Html.ActionLink("Discovery log", "Index", "Log", new { application = CcmApplications.Discovery }, new { }) |
+
+    <span style="float: right">
+        @Html.ActionLink("Rensa log", "Delete", "Log", new { application = Model.Application }, new { })
+        &nbsp;|&nbsp;
+        @Html.ActionLink("Ändra lognivå", "Level", "Log", new { application = Model.Application }, new { })
+    </span>
+
+</div>
+
+<div style="display: block; overflow: hidden; margin-top: 15px;">
+    <form method="get" action="@Url.Action("Index", "Log")">
+        <div class="row">
+            <div class="col-md-2">
+                <label for="lastTime" class="control-label">Visa senaste</label>
+                @Html.DropDownListFor(x => x.SelectedLastOption, new SelectList(Model.LastOptions, "Value", "Text"), 
+               new { @class = "form-control", onchange = "OnLastOptionChanged();"
+           })
+            </div>
+            <div class="col-md-2">
+                <label for="StartDateTime" class="control-label">Tidsintervall från:</label>
+                <div class="input-group" id="startTimeText">
+                    <input id="StartDateTime" name="StartDateTime" value="@Model.StartDateTime" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label for="EndDateTime" class="control-label">Tidsintervall till:</label>
+                <div class="input-group" id="endTimeText">
+                    <input id="EndDateTime" name="EndDateTime" value="@Model.EndDateTime" class="form-control" />
+                </div>
+            </div>
+            
+            <div class="col-md-2">
+                <label for="rows" class="control-label">Max antal rader:</label>
+                <div class="input-group" id="nrOfRows">
+                    <input id="rows" name="rows" value="@Model.Rows" class="form-control" />
+                </div>
+            </div>
+
+            <div class="col-md-1">
+                <label for="submit" class="control-label">&nbsp;</label>
+                <button type="submit" id="submit" class="btn btn-primary form-control">Sök</button>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-2">
+                <label for="level" class="control-label">Minsta nivå</label>
+                @Html.DropDownListFor(x => x.SelectedLevel, new SelectList(Model.Levels, "Value", "Text"), new { @class = "form-control" })
+            </div>
+            <div class="col-md-4">
+                <label for="search" class="control-label">Söktext:</label>
+                <div class="input-group" id="searchText" style="width: 100%;">
+                    <input id="search" name="search" value="@Model.Search" class="form-control" />
+                </div>
+            </div>
+
+            
+        </div>
+
+        <input type="hidden" id="application" name="application" value="@Model.Application" />
+    </form>
+</div>
+
+<div class="log-table">
+    <div class="panel-body-lp">
+        @foreach (var item in Model.LogRows)
+            {
+            <div class="row panel-body-item">
+                <span class="col-md-2">
+                    @if (item.ActivityId == Guid.Empty) {
+                        @item.Date.ToString("yyyy-MM-dd HH:mm:ss.ffff") @item.Level @item.Callsite
+                    } else {
+                        <a href="log?application=@Model.Application&activityId=@item.ActivityId">@item.Date.ToString("yyyy-MM-dd HH:mm:ss.ffff") @item.Level @item.Callsite</a>    
+                    }
+                </span>
+                <span class="col-md-10">
+                    @if (string.IsNullOrEmpty(item.Exception))
+                    {
+                        <pre>@item.Message</pre>
+                    }
+                    else
+                    {
+                        <pre>@item.Message @Environment.NewLine @item.Exception</pre>
+                    }
+                </span>
+            </div>
+        }
+    </div>
+
+</div>
+
+<style>
+    .log-table {
+        margin-top: 30px;
+        font-size: 12px;
+        padding: 2px;
+    }
+
+    .log-table pre {
+        background-color: lightblue;
+        overflow: visible;
+    }
+</style>
+
+<script>
+    function OnLastOptionChanged() {
+        var e = document.getElementById("SelectedLastOption");
+        var index = e.selectedIndex;
+        var disableTimeInterval = (index !== e.options.length - 1);
+        document.getElementById("StartDateTime").disabled = disableTimeInterval;
+        document.getElementById("EndDateTime").disabled = disableTimeInterval;
+    }
+    this.OnLastOptionChanged();
+</script>

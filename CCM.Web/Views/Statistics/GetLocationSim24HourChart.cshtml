@@ -1,0 +1,21 @@
+﻿@model CCM.Web.Models.Statistics.LocationSim24HourChartModel
+<div>
+    <label class="control-label" for="locationSim24HourSelect">@Resources.Location:</label>
+    <select id="locationSim24HourSelect" class="form-control" name="Location">
+        <option value="@Guid.Empty">[@Resources.Location_Select]</option>
+        @foreach (var location in Model.Locations)
+        {
+            <option value="@location.Id" @(Model.LocationId == location.Id ? " selected='selected'" : "")>@location.Name</option>
+        }
+    </select>
+</div>
+@if (Model.LoadChartImage)
+{
+    <div class="tab-pane--topbanner">
+        <a href="@Url.Action("GetLocationSim24HourCsv", new { startDate = Model.StartDate, endDate = Model.EndDate, locationId = Model.LocationId })"><span class="glyphicon glyphicon-download"></span>&nbsp;@Resources.Download_Csv</a>
+    </div>
+    <div>
+        <img src="@Url.Action("GetLocationSim24HourChartImage", new { startDate = Model.StartDate, endDate = Model.EndDate, locationId = Model.LocationId})" width="800" height="600" alt="Chart"/>
+    </div>
+}
+

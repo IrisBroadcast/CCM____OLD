@@ -1,0 +1,13 @@
+﻿@model CCM.Web.Models.Meta.MetaFormViewModel
+
+@{
+    ViewBag.Title = Resources.New_MetaType;
+}
+
+<h2>@Resources.New_MetaType</h2>
+<hr />
+
+@using (Html.BeginForm("Create", "Meta", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.Partial("_MetaForm", Model)
+}

@@ -1,0 +1,78 @@
+﻿@using CCM.Core.Extensions
+@using CCM.Core.Helpers
+@model IEnumerable<CCM.Web.Models.Studio.StudioViewModel>
+
+@{
+    ViewBag.Title = Resources.Studios;
+}
+
+@section search
+{
+   @Html.Partial("_search", new ViewDataDictionary { { "Controller", "Studio" }, { "SearchString", "" } })
+}
+
+@Html.Partial("_indexHeader", new ViewDataDictionary { { "Type", "Studio" }, { "NewLinkText", "Ny studio" } })
+
+<div class="row">
+    <div class="panel panel-default list-ccm">
+        <div class="panel-heading list-ccm-heading">
+            <div class="row">
+                <div class="col-md-2">@Html.DisplayNameFor(x => x.Name)</div>
+                <div class="col-md-2">@Html.DisplayNameFor(x => x.CodecSipAddress)</div>
+                <div class="col-md-8"></div>
+            </div>
+        </div>
+        <div class="panel-body-lp">
+            @foreach (var studio in Model)
+            {
+                <div>
+                    <div class="panel-body-item row">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#@studio.Id">
+                            <div class="col-md-2">
+                                @studio.Name
+                            </div>
+                            <div class="col-md-9">
+                                @studio.CodecSipAddress
+                            </div>
+                            <div class="col-md-1 text-right list-ccm-icongroup">
+                                @if (User.IsInRole(ApplicationConstants.Admin))
+                                {
+                                    @Html.ActionLink(" ", "Edit", "Studio", new { @id = studio.Id }, new { @class = "glyphicon glyphicon-pencil list-ccm-inlineicon" })
+                                    @Html.ActionLink(" ", "Delete", "Studio", new { @id = studio.Id }, new { @class = "glyphicon glyphicon-trash list-ccm-inlineicon" })
+                                }
+                            </div>
+                        </a>
+                    </div>
+                    <div class="row panel-collapse collapse well" id="@studio.Id">
+                        <div class="col-md-12 panel-body">
+                            <div class="col-md-4">
+                                <dl>
+                                    <dt>@Html.DisplayNameFor(x => x.CameraAddress)</dt>
+                                    <dd>@studio.CameraAddress</dd>
+                                    <dt>@Html.DisplayNameFor(x => x.CameraVideoUrl)</dt>
+                                    <dd style="word-wrap: break-word;">@studio.CameraVideoUrl</dd>
+                                    <dt>@Html.DisplayNameFor(x => x.CameraImageUrl)</dt>
+                                    <dd>@studio.CameraImageUrl</dd>
+                                    <dt>@Html.DisplayNameFor(x => x.CameraPlayAudioUrl)</dt>
+                                    <dd>@studio.CameraPlayAudioUrl</dd>
+                                </dl>
+                            </div>
+                            <div class="col-md-offset-4">
+                                <dl>
+                                    <dt>@Resources.AudioInputs</dt>
+                                    <dd>@studio.NrOfAudioInputs st (@studio.AudioInputNames)</dd>
+                                    <dt>@Resources.CodecGPO</dt>
+                                    <dd>@studio.NrOfGpos st (@studio.GpoNames)</dd>
+                                    <dt>@Html.DisplayNameFor(x => x.InfoText)</dt>
+                                    <dd>@studio.InfoText.Shorten(100)</dd>
+                                    <dt>@Html.DisplayNameFor(x => x.MoreInfoUrl)</dt>
+                                    <dd style="word-wrap: break-word;">@studio.MoreInfoUrl</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

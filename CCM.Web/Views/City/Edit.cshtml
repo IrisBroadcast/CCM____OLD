@@ -1,0 +1,37 @@
+﻿@model CCM.Web.Models.Cities.CityViewModel
+
+@{
+    ViewBag.Title = Resources.Edit_City;
+}
+
+<h2>@Resources.Edit_City</h2>
+<hr />
+
+@using (Html.BeginForm("Edit", "City", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.ValidationSummary()
+    @Html.AntiForgeryToken()
+
+    @Html.Partial("_CityForm", Model)
+}
+
+@section scripts
+{
+    <script>
+        $(function () {
+            $('#locationfilter').keyup(function() {
+                $('#locations-menu li').each(function() {
+                    var labelText = $(this).children('label').first().children('span').first().text().substring(0, $('#locationfilter').val().length);
+                    var filterText = $('#locationfilter').val();
+                    var matches = labelText.toLowerCase() == filterText.toLowerCase();
+
+                    if (matches) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            });
+        });
+    </script>
+}

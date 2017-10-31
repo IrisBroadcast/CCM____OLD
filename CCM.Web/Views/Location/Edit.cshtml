@@ -1,0 +1,48 @@
+﻿@model CCM.Web.Models.Location.LocationViewModel
+
+@{
+    ViewBag.Title = Resources.Edit_Location;
+}
+
+<h2>@Resources.Edit_Location</h2>
+<hr />
+
+@using (Html.BeginForm("Edit", "Location", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.ValidationSummary()
+    @Html.AntiForgeryToken()
+
+    @Html.Partial("_LocationForm", Model)
+}
+
+@section head
+{
+    <style type="text/css">
+        #profiles {
+            list-style-type: none;
+        }
+
+            #profiles li span {
+                position: absolute;
+                margin-left: -1.3em;
+            }
+    </style>
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryui")
+
+    <script type="text/javascript">
+        $(function () {
+            $("#profiles").sortable({
+                update: function () {
+                    $('#profiles li').each(function (index, element) {
+                        $(element).find('.sortIndex').val(index);
+                    });
+                }
+            });
+            $("#profiles").disableSelection();
+        })
+    </script>
+}

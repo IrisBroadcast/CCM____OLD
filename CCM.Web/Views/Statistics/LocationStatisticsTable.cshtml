@@ -1,0 +1,24 @@
+﻿@model CCM.Web.Models.Statistics.LocationStatisticsModel
+<div class="tab-pane--topbanner">
+    <a href="@Url.Action("GetLocationStatisticsCsv", new { startDate = Model.StartDate, endDate = Model.EndDate, regionId = Model.RegionId, ownerId = Model.OwnerId, codecTypeId = Model.CodecTypeId})"><span class="glyphicon glyphicon-download"></span>&nbsp;@Resources.Download_Csv</a>
+</div>
+<div>
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+                <th>@Resources.Location</th>
+                <th>@Model.ColumnLabel</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in Model.GetRows())
+            {
+                <tr>
+                    <td class="col-md-3">@row.Label</td>
+                    <td><div style="color: black;background-color: lavender; width:@(row.Width)vw;display:inline-block;padding:2px; text-align: right;" title="@row.ToolTip">@row.Value</div></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

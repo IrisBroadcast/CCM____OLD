@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = Resources.User_Import_Radius;
+}
+
+<h2>@Resources.User_Import_Radius</h2>
+<hr />
+
+@if (ViewBag.importedCount == null)
+{
+    using (Html.BeginForm("RadiusImport", "AccountAdmin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.ValidationSummary()
+        @Html.AntiForgeryToken()
+
+        <p>@Resources.User_Import_Radius_Description</p>
+        <p>@Resources.User_Import_Radius_Are_You_Sure</p>
+        <div>
+            @Html.CheckBox("agree")
+            @Resources.User_Import_Radius_Agree
+        </div>
+        <br />
+        <div>
+            @Html.ActionLink(Resources.Cancel, "Index", "AccountAdmin", null, new { @class = "btn btn-default" })
+            <button type="submit" class="btn btn-primary">@Resources.Import</button>
+        </div>
+    }
+}
+else
+{
+    <p>@string.Format(Resources.User_Import_Radius_Imported, ViewBag.importedCount)</p>
+    @Html.ActionLink(Resources.Done, "Index", "AccountAdmin", null, new { @class = "btn btn-default" })
+}

@@ -1,0 +1,19 @@
+﻿@model CCM.Web.Models.Common.DeleteViewModel
+@{
+    ViewBag.Title = Model.Title;
+}
+
+<h2>@Model.Title</h2>
+<hr />
+<p>@Model.WarningText</p>
+<p>@Model.Name</p>
+
+<form method="post" action="." class="form-horizontal">
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+
+    <div class="form-group">
+        <a href=".." class="btn btn-default">@Resources.Cancel</a>
+        <button type="submit" class="btn btn-danger">@Resources.Delete</button>
+    </div>
+</form>

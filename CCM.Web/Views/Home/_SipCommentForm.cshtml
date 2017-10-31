@@ -1,0 +1,48 @@
+﻿@model CCM.Core.Entities.Specific.RegisteredSipComment
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+</div>
+<div class="modal-body">
+    @using (Html.BeginForm("EditRegisteredSipComment", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form", name = "commentForm", @id = "commentForm" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            @Html.Label(Resources.Comment, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Comment, new { @class = "form-control" })
+            </div>
+        </div>
+
+        @Html.HiddenFor(m => m.RegisteredSipId)
+        @Html.HiddenFor(m => m.RegisteredSipUserName)
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="button" class="btn btn-default" data-dismiss="modal">@Resources.Close</button>
+                <button type="submit" class="btn btn-primary">@Resources.Save</button>
+            </div>
+        </div>
+    }
+</div>
+<div class="modal-footer">
+
+</div>
+
+<script>
+    $("#commentForm").submit(function (event) {
+        event.preventDefault();
+
+        var $form = $(this);
+        var comment = $form.find("input[name='Comment']").val();
+        var sipId = $form.find("input[name='RegisteredSipId']").val();
+        var sipUsername = $form.find("input[name='RegisteredSipUserName']").val();
+        var requestVerificationToken = $form.find("input[name='__RequestVerificationToken']").val();
+        var data = { RegisteredSipId: sipId, RegisteredSipUserName: sipUsername, Comment: comment, __RequestVerificationToken: requestVerificationToken };
+
+        $.post("/Home/EditRegisteredSipComment", data)
+            .done(function (data) {
+                $('#registeredSipModal').modal('hide');
+            });
+    });
+</script>

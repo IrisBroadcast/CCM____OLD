@@ -1,0 +1,11 @@
+﻿@model CCM.Web.Models.Profile.ProfileViewModel
+
+<h2>@ViewBag.Title</h2>
+<hr/>
+
+@using (Html.BeginForm("CreateEdit", "Profile", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.ValidationSummary()
+    @Html.AntiForgeryToken()
+    @Html.Partial("_Profile", Model)
+}

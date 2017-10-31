@@ -1,0 +1,51 @@
+﻿@model System.Collections.Generic.List<CCM.Web.Models.Filter.FilterViewModel>
+
+@{
+    ViewBag.Title = Resources.Filters;
+}
+
+@section search
+{
+    @using (Html.BeginForm("Index", "Filter", FormMethod.Post, new { @class = "navbar-form navbar-right ccm-navbar-search", role = "search" }))
+    {
+        <div class="form-group">
+            <input type="text" id="search" name="search" autofocus class="form-control ccm-navbar-search--field" placeholder="@Resources.Search" value="@ViewBag.SearchString">
+            <button type="submit" class="btn btn-default ccm-navbar-search--btn">@Resources.Search</button>
+        </div>
+    }
+}
+
+<div class="row">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <span class="navbar-brand">@Resources.Filters</span>
+            </div>
+            <div class="navbar admin-page">
+                <ul class="nav navbar-nav nav-pills">
+                    <li>@Html.ActionLink(Resources.New_Filter, "Create", "Filter")</li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<div class="row">
+    <div class="panel panel-default list-ccm">
+        <div class="panel-heading list-ccm-heading">
+
+        </div>
+        <div class="panel-body-lp">
+            @foreach (var filter in Model)
+            {
+                <div class="panel-body-item row">
+                    <div class="col-md-11">@filter.Name</div>
+                    <div class="col-md-1 text-right list-ccm-icongroup">
+                        @Html.ActionLink(" ", "Edit", "Filter", new { @id = filter.Id }, new { @class = "glyphicon glyphicon-pencil list-ccm-inlineicon" })
+                        @Html.ActionLink(" ", "Delete", "Filter", new { @id = filter.Id }, new { @class = "glyphicon glyphicon-trash list-ccm-inlineicon" })
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

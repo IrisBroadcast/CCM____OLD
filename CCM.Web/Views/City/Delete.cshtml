@@ -1,0 +1,22 @@
+﻿@model CCM.Core.Entities.City
+
+@{
+    ViewBag.Title = Resources.Delete_City;
+}
+
+<h2>@Resources.Delete_City</h2>
+<hr />
+<p>@Resources.Delete_City_Are_You_Sure</p>
+<p>@Model.Name</p>
+
+@using (Html.BeginForm("Delete", "City", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(m => m.Id)
+
+    <div class="form-group">
+        @Html.ActionLink(Resources.Cancel, "Index", "City", null, new { @class = "btn btn-default" })
+        <button type="submit" class="btn btn-danger">@Resources.Delete</button>
+    </div>
+}

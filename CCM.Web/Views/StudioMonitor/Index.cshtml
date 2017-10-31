@@ -1,0 +1,117 @@
+﻿@model CCM.Web.Models.StudioMonitor.StudioMonitorViewModel
+@{
+    ViewBag.Title = Model.Name;
+    ViewBag.Angular = true;
+}
+
+<div ng-controller="studioMonitorController" ng-init="init(@Newtonsoft.Json.JsonConvert.SerializeObject(Model))" class="ccm-ui-studio-container">
+    
+    <div class="ccm-ui-studio--inactivity-banner vertical-align--unknown-size" ng-show="inactivity">
+        <div class="inactivity-inner-div">Sidan uppdateras inte längre</div>
+        <button onclick="location.reload();" class="btn btn-primary">Ladda om</button>
+    </div>
+
+    <div class="row ccm-ui-studio-header-row">
+        <div class="col-md-12">
+            <h3>@Model.Name <span class="ccm-ui-studio-codec-statusinfo" ng-class="isInCall ? 'ccm-ui-studio-codec-incall' : ''">{{ codecOnline ? (isInCall ? "är upptagen i samtal med " + connectedTo : "är ledig") : "kan inte nås" }}</span></h3>
+            <hr />
+        </div>
+    </div>
+
+    <div class="row ccm-ui-studio-info-row">
+        <div class="col-md-12">
+            {{ infoText }}
+            <br/>
+            <a href="{{moreInfoUrl}}" target="_blank" title="Manual">Manual</a>
+        </div>
+    </div>
+
+    <div class="row ccm-ui-studio-mixer-row">
+        <div class="col-md-4" ng-show="cameraExists">
+            <img id="studio-camera" class="ccm-ui-studio--camera" src="{{ cameraUrl }}" />
+
+            <div class="ccm-ui-studio-playaudio-row">
+                <!-- Non ajax/js solution due to CORS problems -->
+                <iframe name="hiddenFrame" width="0" height="0" border="0" style="display: none;"></iframe>
+                <form method="get" action="{{playAudioUrl}}" target="hiddenFrame">
+                    <select name="clip" class="form-control ccm-ui-mixer--select-clip">
+                        <option ng-repeat="clip in audioClipNames" value="{{$index}}">{{clip}}</option>
+                    </select>
+                    <button type="submit" ng-disabled="playMessageButtonDisabled" class="btn btn-primary ccm-ui-mixer--play-clip">Spela meddelande</button>
+                </form>
+            </div>
+        </div>
+        <div ng-class="cameraExists ? 'col-md-8' : 'col-md-12'">
+
+            <div class="col-md-12 ccm-ui-studio--no-codec-warning" ng-show="!codecOnline">
+                <span class="info-text">Kodaren kan inte nås</span>
+            </div>
+
+            <div class="col-md-12 no-padding" ng-show="codecOnline">
+                <div class="ccm-ui-mixer--unit" ng-repeat="input in inputs track by input.id">
+                    <button class="btn" ng-class="input.enabled ? 'btn-success' : 'btn-default'" ng-click="toggleInput(input)">
+                        {{input.label}}
+                    </button>
+                    <div class="widgets">
+                        <div class="level-gain">
+
+                            <div class="row">
+                                <div class="db-value">
+                                    {{input.value}}
+                                </div>
+                                <progress class="progress" max="{{ input.maxDb - input.minDb }}" min="0" value="{{ input.value - input.minDb }}"></progress>
+                            </div>
+
+                            <div class="row">
+                                <button class="btn btn-default" ng-click="increaseGainLevel(input)" ng-disabled="input.InputMaxDb==input.value">
+                                    <span class="value">+</span>
+                                </button>
+                            </div>
+
+                            <div class="row">
+                                <button class="btn btn-default" ng-click="decreaseGainLevel(input)" ng-disabled="input.InputMinDb==input.value">
+                                    <span class="value">-</span>
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ccm-ui-mixer--unit">
+                    
+                    <div class="widget-options">
+                        <button class="btn btn-primary ccm-ui-mixer--reset-mixer" ng-class="btn-default" ng-click="resetMixer()">Utgångsläge</button>
+                    </div>
+                    
+                    <div class="vu-group vu-group--left">
+                        <vu-meter level="txL"></vu-meter>
+                        <vu-meter level="txR"></vu-meter>
+                        <div class="vu-group--text">Studio</div>
+                    </div>
+                    <div class="vu-group vu-group--right">
+                        <vu-meter level="rxL"></vu-meter>
+                        <vu-meter level="rxR"></vu-meter>
+                        <div class="vu-group--text">Lyssning</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-12 ccm-ui-mixer--unit-gpo" ng-show="codecOnline">
+                <div class="gpo-group" ng-repeat="gpo in gpos">
+                    <button class="btn gpo" ng-class="{'btn-success': gpo.active == true, 'btn-default': gpo.active == false }" ng-click="setGpo(gpo)">{{ gpo.name }}</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section scripts
+    {
+    @Scripts.Render("~/bundles/home")
+}

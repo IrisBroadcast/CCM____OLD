@@ -1,0 +1,28 @@
+﻿@model CCM.Core.Entities.Owner
+
+@{
+    ViewBag.Title = Resources.Edit_Owner;
+}
+
+<h2>@Resources.Edit_Owner</h2>
+<hr/>
+
+@using (Html.BeginForm("Edit", "Owners", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        @Html.Label(Resources.Name, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        </div>
+    </div>
+
+    @Html.HiddenFor(m => m.Id)
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            @Html.ActionLink(Resources.Cancel, "Index", "Owners", null, new { @class = "btn btn-default" })
+            <button type="submit" class="btn btn-primary">@Resources.Save</button>
+        </div>
+    </div>
+}

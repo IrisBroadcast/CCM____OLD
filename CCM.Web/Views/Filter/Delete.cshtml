@@ -1,0 +1,23 @@
+﻿@model CCM.Core.Entities.Filter
+
+@{
+    ViewBag.Title = Resources.Delete_Filter;
+}
+
+<h2>@Resources.Delete_Filter</h2>
+<hr />
+
+<p>@Resources.Delete_Filter_Are_You_Sure</p>
+<p>@Model.Name</p>
+
+@using (Html.BeginForm("Delete", "Filter", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(m => m.Id)
+
+    <div class="form-group">
+        @Html.ActionLink(Resources.Cancel, "Index", "Filter", null, new { @class = "btn btn-default" })
+        <button type="submit" class="btn btn-danger">@Resources.Delete</button>
+    </div>
+}

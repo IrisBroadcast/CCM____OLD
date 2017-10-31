@@ -1,0 +1,131 @@
+﻿@using System.Configuration
+@using System.Reflection
+@using CCM.Core.Helpers
+@{
+    string env = @ConfigurationManager.AppSettings["Environment"];
+    var logoClass = (env == "Test" ? "logo-test" : "logo");
+    string deployVersion = Assembly.GetAssembly(typeof(CCM.Core.Entities.Call)).GetName().Version.ToString(3);
+    string buildDateString = @ConfigurationManager.AppSettings["BuildDate"];
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <!-- Android chrome -->
+    <meta name="theme-color" content="#337ab7" />
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#337ab7">
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>CCM</title>
+    @Styles.Render("~/Content/css")
+    @RenderSection("head", required: false)
+</head>
+<body ng-app="ccm">
+    @RenderSection("bodyTop", false)
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="@Url.Action("Index", "Home")" class="@logoClass"></a>
+            </div>
+            <div class="navbar-collapse collapse">
+
+                <ul class="nav navbar-nav navbar-left">
+                    <!-- Overview -->
+                    <li>@Html.ActionLink(Resources.Overview, "Index", "Home")</li>
+
+                    <!-- Statistics -->
+                    <li>@Html.ActionLink(Resources.Statistics, "Index", "Statistics")</li>
+                    
+                    <!-- Studior -->
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Resources.Studios</a>
+                        @Html.Action("Menu", "StudioMonitor", new { area = "" })
+                    </li>
+                    
+                    <!-- Administration -->
+                    @if (User.IsInRole(ApplicationConstants.Admin))
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Resources.Administration</a>
+
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink(Resources.Accounts, "Index", "AccountAdmin")</li>
+                                <li>@Html.ActionLink(Resources.UserAgents, "Index", "UserAgents")</li>
+                                <li>@Html.ActionLink(Resources.Profiles, "Index", "Profile")</li>
+                                <li>@Html.ActionLink(Resources.ProfileGroups, "Index", "ProfileGroup")</li>
+                                <li>@Html.ActionLink(Resources.Owners, "Index", "Owners")</li>
+                                <li class="dropdown-menu--divider"><div> </div></li>
+                                <li>@Html.ActionLink(Resources.Codec_Types, "Index", "CodecTypes")</li>
+                                <li>@Html.ActionLink(Resources.Locations, "Index", "Location")</li>
+                                <li>@Html.ActionLink(Resources.Regions, "Index", "Regions")</li>
+                                <li>@Html.ActionLink(Resources.Cities, "Index", "City")</li>
+                                <li class="dropdown-menu--divider"><div> </div></li>
+                                <li>@Html.ActionLink(@Resources.Studios, "Index", "Studio")</li>
+                                <li>@Html.ActionLink(Resources.Codec_Presets, "Index", "Presets")</li>
+                                <li class="dropdown-menu--divider"><div> </div></li>
+                                <li>@Html.ActionLink(Resources.Filters, "Index", "Filter")</li>
+                                <li>@Html.ActionLink(Resources.MetaTypes, "Index", "Meta")</li>
+                                <li>@Html.ActionLink(Resources.Settings, "Index", "Settings")</li>
+                            </ul>
+                        </li>
+                    }
+
+                    @if (User.IsInRole("Remote"))
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Resources.Administration</a>
+
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink(Resources.UserAgents, "Index", "UserAgents")</li>
+                                <li>@Html.ActionLink(Resources.Profiles, "Index", "Profile")</li>
+                                <li>@Html.ActionLink(Resources.ProfileGroups, "Index", "ProfileGroup")</li>
+                                <li>@Html.ActionLink(Resources.Owners, "Index", "Owners")</li>
+                                <li class="dropdown-menu--divider"><div> </div></li>
+                                <li>@Html.ActionLink(Resources.Codec_Types, "Index", "CodecTypes")</li>
+                                <li>@Html.ActionLink(Resources.Locations, "Index", "Location")</li>
+                                <li>@Html.ActionLink(Resources.Regions, "Index", "Regions")</li>
+                                <li>@Html.ActionLink(Resources.Cities, "Index", "City")</li>
+                                <li class="dropdown-menu--divider"><div> </div></li>
+                                <li>@Html.ActionLink(@Resources.Studios, "Index", "Studio")</li>
+                            </ul>
+                        </li>
+                    }
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- Searchbar -->
+                    <li>
+                        @RenderSection("search", required: false)
+                    </li>
+
+                    <!-- Admin Login/Logout-->
+                    <li>
+                        @Html.Partial("_LoginPartial")
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid body-content">
+        @RenderBody()
+        <hr />
+        <footer class="ccm-layout-footer">
+            <p>&copy; 2014 - @DateTime.Now.Year Sveriges Radio. Version <b>@deployVersion</b> i drift sedan <b>@buildDateString</b></p>
+        </footer>
+    </div>
+
+    @RenderSection("bodyBottom", false)
+
+    @Scripts.Render("~/bundles/ccm")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

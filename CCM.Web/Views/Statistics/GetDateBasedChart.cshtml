@@ -1,0 +1,9 @@
+﻿@using CCM.Web.Models.Statistics
+@model CCM.Web.Models.Statistics.DateBasedChartModel
+<div class="tab-pane--topbanner">
+    <a href="@Url.Action("GetDateBasedCsv", new { filterType = Model.FilterType, startDate = Model.StartDate, endDate = Model.EndDate, filterId = Model.FilterId })"><span class="glyphicon glyphicon-download"></span>&nbsp;@Resources.Download_Csv</a>
+</div>
+<div>
+    <img src="@Url.Action("GetDateBasedChartImage", new { filterType = Model.FilterType, chartType = Model.ChartType, startDate = Model.StartDate, endDate = Model.EndDate, filterId = Model.FilterId })" width="800" height="600" alt="Chart"/>
+</div>
+

@@ -1,0 +1,11 @@
+﻿@model IEnumerable<CCM.Core.Entities.Studio>
+@{
+    Layout = null;
+}
+
+<ul class="dropdown-menu">
+    @foreach (var studio in Model)
+    {
+        <li>@Html.ActionLink(studio.Name, "Index", "StudioMonitor", new { id = studio.Id }, null)</li>
+    }
+</ul>

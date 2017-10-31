@@ -1,0 +1,25 @@
+﻿@model CCM.Core.Entities.CodecPreset
+
+@{
+    ViewBag.Title = Resources.Delete_Preset;
+}
+
+<h2>@Resources.Delete_Preset</h2>
+<hr />
+
+<p>@Resources.Delete_Preset_Are_You_Sure</p>
+<p>@Model.Name</p>
+
+@using (Html.BeginForm("Delete", "Presets", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(m => m.Id)
+
+    <div class="form-group">
+        @Html.ActionLink(Resources.Cancel, "Index", "Preset", null, new { @class = "btn btn-default" })
+        <button type="submit" class="btn btn-danger">@Resources.Delete</button>
+    </div>
+}
+
+

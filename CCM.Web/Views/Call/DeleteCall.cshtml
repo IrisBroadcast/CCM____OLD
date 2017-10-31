@@ -1,0 +1,34 @@
+﻿@model CCM.Web.Models.Call.DeleteCallViewModel
+
+@{
+    ViewBag.Title = Resources.Delete_Call;
+    var warningText = Resources.Delete_Call_Are_You_Sure.Replace("[to]", string.Format("<strong>{0}</strong>", Model.CallToSipAddress)).Replace("[from]", string.Format("<strong>{0}</strong>", Model.CallFromSipAddress)).Replace("[start]", string.Format("<strong>{0}</strong>", Model.CallStarted));
+}
+
+<h2>@Resources.Delete_Call</h2>
+<div class="row">
+    <p class="col-md-7">@Html.Raw(warningText)</p>
+</div>
+
+@using (Html.BeginForm("DeleteCall", "Call", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.ValidationSummary()
+    @Html.AntiForgeryToken()
+    
+    <div class="form-group">
+        @Html.CheckBoxFor(m => m.ImSure)
+        @Html.LabelFor(m => m.ImSure)
+    </div>
+    <div class="form-group">
+        @Html.CheckBoxFor(m => m.IHaveChecked)
+        @Html.LabelFor(m => m.IHaveChecked)
+    </div>
+    @Html.HiddenFor(m => m.CallId)
+
+    <div class="form-group">
+        <div class="">
+            @Html.ActionLink(Resources.Cancel, "Index", "Home", null, new { @class = "btn btn-default" })
+            <button type="submit" class="btn btn-primary">@Resources.Delete</button>
+        </div>
+    </div>
+}

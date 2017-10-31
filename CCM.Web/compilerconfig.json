@@ -1,0 +1,18 @@
+﻿[
+  {
+    "outputFile": "Content/less/Site.css",
+    "inputFile": "Content/less/Site.less"
+  },
+  {
+    "outputFile": "Content/bootstrap/bootstrap.css",
+    "inputFile": "Content/bootstrap/bootstrap.less"
+  },
+  {
+    "outputFile": "Content/less/colorpicker.css",
+    "inputFile": "Content/less/colorpicker.less"
+  },
+  {
+    "outputFile": "Content/bootstrap-datetimepicker-build.css",
+    "inputFile": "Content/bootstrap-datetimepicker-build.less"
+  }
+]

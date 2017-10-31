@@ -1,0 +1,23 @@
+﻿@model CCM.Core.Entities.Owner
+
+@{
+    ViewBag.Title = Resources.Delete_Owner;
+}
+
+<h2>@Resources.Delete_Owner</h2>
+<hr/>
+
+<p>@Resources.Delete_Owner_Are_You_Sure</p>
+<p>@Model.Name</p>
+
+@using (Html.BeginForm("Delete", "Owners", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(m => m.Id)
+
+    <div class="form-group">
+        @Html.ActionLink(Resources.Cancel, "Index", "Owners", null, new { @class = "btn btn-default" })
+        <button type="submit" class="btn btn-danger">@Resources.Delete</button>
+    </div>
+}

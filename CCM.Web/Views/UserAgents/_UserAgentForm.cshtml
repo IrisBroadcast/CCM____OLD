@@ -1,0 +1,242 @@
+﻿@using CCM.Core.Enums
+@model CCM.Web.Models.UserAgents.UserAgentViewModel
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Identifier, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.Identifier, new { @class = "form-control" })
+    </div>
+</div>
+
+<div class="form-group">
+    <!--@Html.LabelFor(m => m.MatchType, new { @class = "col-md-2 control-label" })-->
+    <label class="col-md-2 control-label">
+        @Resources.IdentifyType
+    </label>
+
+    <div class="col-md-10">
+        @foreach (var type in Enum.GetValues(typeof(MatchType)))
+        {
+            <div class="ccm-form-group--radio">
+                <label>
+                    <div class="ccm-form-group-radio--btn">
+                        @Html.RadioButtonFor(m => m.MatchType, type)
+                    </div>
+                    <div class="ccm-form-group-radio--text">
+                        @Resources.ResourceManager.GetString(type.ToString())
+                        @Html.Encode(" ")
+                    </div>
+                </label>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Image, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        <div>
+            <input type="file" name="file" class="form-control" />
+        </div>
+        @if (Model != null && !string.IsNullOrWhiteSpace(Model.Image))
+        {
+            <div class="ccm-form-input--agent-logo">
+                <img src="@Url.Content(string.Format("~/Images/Agents/{0}", Model.Image))" alt="" />
+            </div>
+        }
+
+        @Html.HiddenFor(m => m.Image)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.UserInterfaceLink, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.UserInterfaceLink, new { @class = "form-control" })
+        @Html.DescriptionFor(m => m.UserInterfaceLink)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.UserInterfaceIsOpen, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        <div class="ccm-form-group--checkbox">
+            <div class="ccm-form-group-checkbox--btn">
+                @Html.CheckBoxFor(m => m.UserInterfaceIsOpen)
+            </div>
+            <div class="ccm-form-group-checkbox--text">
+                @Html.DescriptionFor(m => m.UserInterfaceIsOpen)
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.ActiveX, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        <div class="ccm-form-group--checkbox">
+            <div class="ccm-form-group-checkbox--btn">
+                @Html.CheckBoxFor(m => m.ActiveX)
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Height, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.Height, new { @class = "form-control" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Width, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.Width, new { @class = "form-control" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.UseScrollbars, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        <div class="ccm-form-group--checkbox">
+            <div class="ccm-form-group-checkbox--btn">
+                @Html.CheckBoxFor(m => m.UseScrollbars)
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Profiles, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        <div class="dropdown">
+            <a class="dropdown-toggle btn-default btn" data-toggle="dropdown" href="#">@Resources.Profiles <b class="caret"></b></a>
+            <ul class="dropdown-menu dropdown-menu-checkboxes" id="profiles" role="menu">
+                @for (int i = 0; i < Model.Profiles.Count; i++)
+                {
+                    <li>
+                        <label class="checkbox">
+                            @Html.CheckBoxFor(m => m.Profiles[i].Selected)
+                            @Model.Profiles[i].Name
+                            @Html.HiddenFor(m => m.Profiles[i].Id)
+                            @Html.HiddenFor(m => m.Profiles[i].Name)
+                            @Html.Hidden(string.Format("Profiles[{0}].SortIndex", i), i, new { @class = "sortIndex" })
+                        </label>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Comment, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.TextAreaFor(m => m.Comment, new { @class = "form-control" })
+    </div>
+</div>
+
+<div class="form-group">
+    <a data-toggle="collapse" data-parent="#accordion" href="#codecconf" class="col-md-2 control-label">@Resources.Codec_Control_Settings</a>
+</div>
+<div class="form-group">
+    <div class="panel-collapse collapse" id="codecconf">
+        <div class="form-group">
+            @Html.LabelFor(m => m.Api, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.Api, new SelectList(Model.CodecApis, "Value", "Key"), new { @class = "form-control" })
+
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Lines, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                <select class="form-control" id="Lines" name="Lines">
+                    @for (int i = 0; i <= Model.LinesInList; i++)
+                    {
+                        <option value="@i" @(Model.Lines == i ? "selected" : string.Empty)>@i</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.GpoNames, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.GpoNames, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Inputs, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                <select class="form-control" id="Inputs" name="Inputs">
+                    @for (int i = 0; i <= Model.InputsInList; i++)
+                    {
+                        <option value="@i" @(Model.Inputs == i ? "selected" : string.Empty)>@i</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.CodecPresets, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                <div class="dropdown">
+                    <a class="dropdown-toggle btn-default btn" data-toggle="dropdown" href="#">@Resources.Codec_Presets <b class="caret"></b></a>
+                    <ul class="dropdown-menu dropdown-menu-checkboxes" id="codecPresets" role="menu">
+                        @for (int i = 0; i < Model.CodecPresets.Count; i++)
+                        {
+                            <li>
+                                <label class="checkbox">
+                                    @Html.CheckBoxFor(m => m.CodecPresets[i].Selected)
+                                    @Model.CodecPresets[i].Name
+                                    @Html.HiddenFor(m => m.CodecPresets[i].Id)
+                                    @Html.HiddenFor(m => m.CodecPresets[i].Name)                                    
+                                </label>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label(Resources.Db_Level_Values, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.LabelFor(m => m.MinInputDb, new { @class = "control-label" })
+                <select class="form-control" id="MinInputDb" name="MinInputDb">
+                    @for (int i = Model.InputDbInListMin; i <= Model.InputDbInListMax; i++)
+                    {
+                        <option value="@i" @(Model.MinInputDb == i ? "selected" : string.Empty)>@i</option>
+                    }
+                </select>
+
+                @Html.LabelFor(m => m.MaxInputDb, new { @class = "control-label" })
+                <select class="form-control" id="MaxInputDb" name="MaxInputDb">
+                    @for (int i = Model.InputDbInListMin; i <= Model.InputDbInListMax; i++)
+                    {
+                        <option value="@i" @(Model.MaxInputDb == i ? "selected" : string.Empty)>@i</option>
+                    }
+                </select>
+
+                @Html.LabelFor(m => m.InputGainStep, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.InputGainStep, new { @class =  "form-control" })
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.HiddenFor(m => m.Id)
+
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        @Html.ActionLink(Resources.Cancel, "Index", "UserAgents", null, new { @class = "btn btn-default" })
+        <button type="submit" class="btn btn-primary">@Resources.Save</button>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+﻿@model CCM.Web.Models.Filter.FilterFormViewModel
+
+@{
+    ViewBag.Title = Resources.New_Filter;
+}
+
+<h2>@Resources.New_Filter</h2>
+<hr />
+
+@using (Html.BeginForm("Create", "Filter", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.Partial("_FilterForm", Model)
+}

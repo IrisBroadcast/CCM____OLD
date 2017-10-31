@@ -1,0 +1,25 @@
+﻿@model CCM.Web.Models.Meta.MetaFormViewModel
+
+@Html.ValidationSummary()
+@Html.AntiForgeryToken()
+
+<div class="form-group">
+    @Html.LabelFor(m => m.MetaTypeName, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.MetaTypeName, new { @class = "form-control" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.SelectedMetaTypeValue, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.DropDownListFor(m => m.SelectedMetaTypeValue, new SelectList(Model.MetaTypeValues, "FullPropertyName", "FullPropertyName"), new { @class = "form-control" })
+    </div>
+</div>
+@Html.HiddenFor(m => m.Id)
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        @Html.ActionLink(Resources.Cancel, "Index", "Meta", null, new { @class = "btn btn-default" })
+        <button type="submit" class="btn btn-primary">@Resources.Save</button>
+    </div>
+</div>

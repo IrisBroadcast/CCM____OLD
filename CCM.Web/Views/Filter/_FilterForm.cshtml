@@ -1,0 +1,25 @@
+﻿@model CCM.Web.Models.Filter.FilterFormViewModel
+
+@Html.ValidationSummary()
+@Html.AntiForgeryToken()
+
+<div class="form-group">
+    @Html.LabelFor(m => m.FilterName, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.FilterName, new { @class = "form-control" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.SelectedFilter, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.DropDownListFor(m => m.SelectedFilter, new SelectList(Model.Filters, "FilteringName", "FilteringName"), new { @class = "form-control" })
+    </div>
+</div>
+@Html.HiddenFor(m => m.Id)
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        @Html.ActionLink(Resources.Cancel, "Index", "Filter", null, new { @class = "btn btn-default" })
+        <button type="submit" class="btn btn-primary">@Resources.Save</button>
+    </div>
+</div>

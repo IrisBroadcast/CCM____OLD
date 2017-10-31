@@ -1,0 +1,58 @@
+﻿@using CCM.Core.Entities
+@{
+    ViewBag.Title = "Delete";
+    var logCount = ViewBag.LogCount as IList<LogInfo>;
+    int nrOfRowsToDelete = ViewBag.nrOfRowsToDelete; 
+}
+
+<h2>Rensa loggen</h2>
+
+<hr />
+
+<div>Just nu i loggen</div>
+<br/>
+<table style="width: 400px;">
+    <tr>
+        <th style="width: 33%">Applikation</th>
+        <th style="width: 33%">Antal rader</th>
+        <th style="width: 33%">Äldst</th>
+    </tr>
+    @foreach (var logInfo in logCount)
+    {
+        <tr>
+            <td>@logInfo.Application</td>
+            <td>@logInfo.Count</td>
+            <td>@logInfo.MinDate</td>
+        </tr>
+    }
+</table>
+
+<br/>
+
+@using (Html.BeginForm("Delete", "Log", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    <div class="form-group">
+        <div class="col-md-9">
+            Antal rader att radera:
+            <input type="text" name="nrOfRowsToDelete" value="@nrOfRowsToDelete">
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <div class="col-md-9">
+            <button type="submit" class="btn btn-primary">Rensa</button>
+        </div>
+    </div>
+}
+
+<br/>
+
+<span style="float: left">
+    @Html.ActionLink("Tillbaka", "Index", "Log")
+</span>
+
+
+
+
+
+

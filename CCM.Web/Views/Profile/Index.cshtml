@@ -1,0 +1,129 @@
+﻿@using CCM.Core.Helpers
+@using CCM.Web.Extensions
+@model List<CCM.Core.Entities.Profile>
+
+@{
+    ViewBag.Title = "title";
+    int sortCounter = 0;
+}
+
+@section search
+{
+    @using (Html.BeginForm("Index", "Profile", FormMethod.Post, new { @class = "navbar-form navbar-right ccm-navbar-search", role = "search" }))
+    {
+        <div class="form-group">
+            <input type="text" id="search" name="search" autofocus class="form-control ccm-navbar-search--field" placeholder="@Resources.Search" value="@ViewBag.SearchString">
+            <button type="submit" class="btn btn-default ccm-navbar-search--btn">@Resources.Search</button>
+        </div>
+    }
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryui")
+
+    <script type="text/javascript">
+        $(function() {
+            // Profilsortering
+            $("#profiles").sortable({
+                update: function() {
+                    var data = [];
+                    $('#profiles .profile-row').each(function(index, element) {
+                        $(element).find('.sortIndex').val(index);
+                        data.push({ id: $(element).find('.profileId').val(), sortindex: index });
+                    });
+                    $.ajax({
+                        url: 'Profile/SetProfileSortIndex',
+                        type: "POST",
+                        data: JSON.stringify(data),
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                    });
+                }
+            });
+            $("#profiles").disableSelection();
+        })
+    </script>
+}
+
+<div class="row">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <span class="navbar-brand">@Resources.Profiles</span>
+            </div>
+            <div class="navbar admin-page">
+                @if (User.IsInRole(ApplicationConstants.Admin))
+                {
+                    <ul class="nav navbar-nav nav-pills">
+                        <li>@Html.ActionLink(Resources.New_Profile, "Create", "Profile")</li>
+                    </ul>
+                }
+            </div>
+        </div>
+    </nav>
+</div>
+
+<div class="row">
+    <div class="panel panel-default list-ccm">
+        <div class="panel-heading list-ccm-heading">
+            <div class="row">
+                <div class="col-md-3">@Resources.Name</div>
+                <div class="col-md-8">@Resources.Description</div>
+            </div>
+        </div>
+        <div class="panel-body-lp" id="profiles">
+            @foreach (var profile in Model)
+            {
+                <div class="profile-row">
+                    @Html.Hidden("SortIndex", sortCounter, new { @class = "sortIndex" })
+                    @Html.HiddenFor(p => profile.Id, new { @class = "profileId" })
+                    <div class="panel-body-item row">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#@profile.Id">
+                            <div class="col-md-3">@profile.Name</div>
+                            <div class="col-md-8">@profile.Description</div>
+                            <div class="col-md-1 text-right list-ccm-icongroup">
+                                @if (User.IsInRole(ApplicationConstants.Admin))
+                                {
+                                    @Html.ActionLink(" ", "Edit", "Profile", new { @id = profile.Id }, new { @class = "glyphicon glyphicon-pencil list-ccm-inlineicon" })
+                                    @Html.ActionLink(" ", "Delete", "Profile", new { @id = profile.Id }, new { @class = "glyphicon glyphicon-trash list-ccm-inlineicon" })
+                                }
+                            </div>
+                        </a>
+                    </div>
+                    <div class="row panel-collapse collapse well" id="@profile.Id">
+                        <div class="col-md-12 panel-body">
+                            <div class="col-md-4">
+                                <div>
+                                    <dl>
+                                        <dt>@Resources.Groups</dt>
+                                        @foreach (var group in profile.Groups)
+                                        {
+                                            <dd>@group.Name</dd>
+                                        }
+                                    </dl>
+                                </div>
+                                <div>
+                                    <dl>
+                                        <dt>@Resources.UserAgents</dt>
+                                        @foreach (var userAgent in profile.UserAgents)
+                                        {
+                                            <dd>@userAgent.Name</dd>
+                                        }
+                                    </dl>
+                                </div>
+                            </div>
+                            <div class="col-md-offset-4">
+                                <dl>
+                                    <dt>@Resources.SDP</dt>
+                                    <dd>@Html.Nl2Br(profile.Sdp)</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                        sortCounter++;
+            }
+        </div>
+    </div>
+</div>

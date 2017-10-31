@@ -1,0 +1,23 @@
+﻿@model CCM.Core.Entities.CodecType
+
+@{
+    ViewBag.Title = Resources.Delete_Codec_Type;
+}
+
+<h2>@Resources.Delete_Codec_Type</h2>
+<hr />
+
+<p>@Resources.Delete_Codec_Type_Are_You_Sure</p>
+<p>@Model.Name</p>
+
+@using (Html.BeginForm("Delete", "CodecTypes", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(m => m.Id)
+
+    <div class="form-group">
+        @Html.ActionLink(Resources.Cancel, "Index", "CodecTypes", null, new { @class = "btn btn-default" })
+        <button type="submit" class="btn btn-danger">@Resources.Delete</button>
+    </div>
+}

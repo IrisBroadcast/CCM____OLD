@@ -1,0 +1,858 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Accounts" xml:space="preserve">
+    <value>Konton</value>
+  </data>
+  <data name="Account_Type" xml:space="preserve">
+    <value>Kontotyp</value>
+  </data>
+  <data name="Administration" xml:space="preserve">
+    <value>Administration</value>
+  </data>
+  <data name="Studios" xml:space="preserve">
+    <value>Studior</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Avbryt</value>
+  </data>
+  <data name="CcmUser" xml:space="preserve">
+    <value>CCM</value>
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Kommentar</value>
+  </data>
+  <data name="Edit_Comment" xml:space="preserve">
+    <value>Dubbelklicka för att redigera kommentar</value>
+  </data>
+  <data name="Confirm_Password" xml:space="preserve">
+    <value>Bekräfta lösenord</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Ta bort</value>
+  </data>
+  <data name="Delete_Account" xml:space="preserve">
+    <value>Ta bort konto</value>
+  </data>
+  <data name="Delete_Account_Are_You_Sure" xml:space="preserve">
+    <value>Är du säker på att du vill ta bort detta konto?</value>
+  </data>
+  <data name="Edit_Account" xml:space="preserve">
+    <value>Ändra konto</value>
+  </data>
+  <data name="First_Name" xml:space="preserve">
+    <value>Förnamn</value>
+  </data>
+  <data name="Last_Name" xml:space="preserve">
+    <value>Efternamn</value>
+  </data>
+  <data name="Locations" xml:space="preserve">
+    <value>Platser</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Namn</value>
+  </data>
+  <data name="New_Account" xml:space="preserve">
+    <value>Nytt konto</value>
+  </data>
+  <data name="OngoingCalls" xml:space="preserve">
+    <value>Pågående samtal</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Lösenord</value>
+  </data>
+  <data name="Password_Dont_Match" xml:space="preserve">
+    <value>Lösenorden matchar inte</value>
+  </data>
+  <data name="Password_Required" xml:space="preserve">
+    <value>Du måste ange ett lösenord</value>
+  </data>
+  <data name="Password_To_Short" xml:space="preserve">
+    <value>Lösenordet är för kort</value>
+  </data>
+  <data name="RegisteredSips" xml:space="preserve">
+    <value>Registrerade enheter</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Spara</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Sök</value>
+  </data>
+  <data name="Search_Account" xml:space="preserve">
+    <value>Sök konto</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Inställningar</value>
+  </data>
+  <data name="SIP" xml:space="preserve">
+    <value>SIP</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>Användarnamn</value>
+  </data>
+  <data name="UserName_Required" xml:space="preserve">
+    <value>Du måste ange ett användarnamn</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>Alla</value>
+  </data>
+  <data name="Invalid_Username_Password" xml:space="preserve">
+    <value>Felaktigt användarnamn eller lösenord</value>
+  </data>
+  <data name="Log_In" xml:space="preserve">
+    <value>Logga in</value>
+  </data>
+  <data name="Log_Off" xml:space="preserve">
+    <value>Logga ut</value>
+  </data>
+  <data name="Overview" xml:space="preserve">
+    <value>Översikt</value>
+  </data>
+  <data name="Delete_Profile" xml:space="preserve">
+    <value>Ta bort profil</value>
+  </data>
+  <data name="Delete_Profile_Are_You_Sure" xml:space="preserve">
+    <value>Är du säker på att du vill ta bort denna profil?</value>
+  </data>
+  <data name="Delete_ProfileGroup" xml:space="preserve">
+    <value>Ta bort grupp</value>
+  </data>
+  <data name="Delete_ProfileGroup_Are_You_Sure" xml:space="preserve">
+    <value>Är du säker på att du vill ta bort denna grupp?</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Beskrivning</value>
+  </data>
+  <data name="Edit_Profile" xml:space="preserve">
+    <value>Ändra profil</value>
+  </data>
+  <data name="Name_Required" xml:space="preserve">
+    <value>Du måste ange ett namn</value>
+  </data>
+  <data name="New_Location" xml:space="preserve">
+    <value>Ny plats</value>
+  </data>
+  <data name="New_Profile" xml:space="preserve">
+    <value>Ny profil</value>
+  </data>
+  <data name="New_ProfileGroup" xml:space="preserve">
+    <value>Ny profilgrupp</value>
+  </data>
+  <data name="ProfileGroup" xml:space="preserve">
+    <value>Profilgrupp</value>
+  </data>
+  <data name="Profiles" xml:space="preserve">
+    <value>Profiler</value>
+  </data>
+  <data name="ProfileGroups" xml:space="preserve">
+    <value>Profilgrupper</value>
+  </data>
+  <data name="SDP" xml:space="preserve">
+    <value>SDP</value>
+  </data>
+  <data name="Cidr" xml:space="preserve">
+    <value>CIDR IPv4</value>
+  </data>
+  <data name="Delete_Location" xml:space="preserve">
+    <value>Ta bort plats</value>
+  </data>
+  <data name="Delete_Location_Are_You_Sure" xml:space="preserve">
+    <value>Är du säker på att du vill ta bort denna plats?</value>
+  </data>
+  <data name="Edit_Location" xml:space="preserve">
+    <value>Ändra plats</value>
+  </data>
+  <data name="Net" xml:space="preserve">
+    <value>Nät IPv4</value>
+  </data>
+  <data name="Net_Required" xml:space="preserve">
+    <value>Du måste ange ett nät</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Plats</value>
+  </data>
+  <data name="Delete_Owner" xml:space="preserve">
+    <value>Ta bort ägare</value>
+  </data>
+  <data name="Delete_Owner_Are_You_Sure" xml:space="preserve">
+    <value>Är du säker på att du vill ta bort denna ägare?</value>
+  </data>
+  <data name="Edit_Owner" xml:space="preserve">
+    <value>Ändra ägare</value>
+  </data>
+  <data name="New_Owner" xml:space="preserve">
+    <value>Ny ägare</value>
+  </data>
+  <data name="Owners" xml:space="preserve">
+    <value>Ägare</value>
+  </data>
+  <data name="Show_User_Type" xml:space="preserve">
+    <value>Visa användartyp</value>
+  </data>
+  <data name="Owner" xml:space="preserve">
+    <value>Ägare</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Höjd</value>
+  </data>
+  <data name="Homepage" xml:space="preserve">
+    <value>Hemsida</value>
+  </data>
+  <data name="Identifier" xml:space="preserve">
+    <value>Identifierare</value>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>Bild</value>
+  </data>
+  <data name="New_UserAgent" xml:space="preserve">
+    <value>Ny kodarmodell</value>
+  </data>
+  <data name="UserAgent" xml:space="preserve">
+    <value>Kodarmodell</value>
+  </data>
+  <data name="UserAgents" xml:space="preserve">
+    <value>Kodarmodeller</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Bredd</value>
+  </data>
+  <data name="Delete_UserAgent" xml:space="preserve">
+    <value>Ta bort kodarmodell</value>
+  </data>
+  <data name="Delete_UserAgent_Are_You_Sure" xml:space="preserve">
+    <value>Är du säker på att du vill ta bort denna kodarmodell?</value>
+  </data>
+  <data name="BeginsWith" xml:space="preserve">
+    <value>Börjar med</value>
+  </data>
+  <data name="Contains" xml:space="preserve">
+    <value>Innehåller</value>
+  </data>
+  <data name="EndsWith" xml:space="preserve">
+    <value>Slutar med</value>
+  </data>
+  <data name="IdentifyType" xml:space="preserve">
+    <value>Identifieringstyp</value>
+  </data>
+  <data name="In_Call_With" xml:space="preserve">
+    <value>I samtal med</value>
+  </data>
+  <data name="Ip_Address" xml:space="preserve">
+    <value>IP-Adress</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Connected" xml:space="preserve">
+    <value>Ansluten</value>
+  </data>
+  <data name="Disconnected" xml:space="preserve">
+    <value>Ej uppkopplad</value>
+  </data>
+  <data name="Remember_Me" xml:space="preserve">
+    <value>Kom ihåg mig</value>
+  </data>
+  <data name="Edit_Group" xml:space="preserve">
+    <value>Ändra grupp</value>
+  </data>
+  <data name="Groups" xml:space="preserve">
+    <value>Grupper</value>
+  </data>
+  <data name="New_Group" xml:space="preserve">
+    <value>Ny grupp</value>
+  </data>
+  <data name="Delete_Group" xml:space="preserve">
+    <value>Ta bort grupp</value>
+  </data>
+  <data name="Delete_Group_Are_You_Sure" xml:space="preserve">
+    <value>Är du säker på att du vill ta bort denna grupp?</value>
+  </data>
+  <data name="User_Interface" xml:space="preserve">
+    <value>Användargränssnitt</value>
+  </data>
+  <data name="User_Interface_Description" xml:space="preserve">
+    <value>Använd [host] för att markera vart adress skall placeras. Ex https://[host]/adminui</value>
+  </data>
+  <data name="Generated_Password" xml:space="preserve">
+    <value>Genererat lösenord</value>
+  </data>
+  <data name="Generate_Password" xml:space="preserve">
+    <value>Generera lösenord</value>
+  </data>
+  <data name="Delete_Filter" xml:space="preserve">
+    <value>Ta bort filter</value>
+  </data>
+  <data name="Delete_Filter_Are_You_Sure" xml:space="preserve">
+    <value>Är du säker på att du vill ta bort detta filter?</value>
+  </data>
+  <data name="Filters" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="Filter_Name" xml:space="preserve">
+    <value>Filternamn</value>
+  </data>
+  <data name="Filter_Name_In_Use" xml:space="preserve">
+    <value>Det finns redan ett filter med det angivna namnet</value>
+  </data>
+  <data name="Filter_On" xml:space="preserve">
+    <value>Filtrera på</value>
+  </data>
+  <data name="New_Filter" xml:space="preserve">
+    <value>Nytt filter</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Klart</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Importera</value>
+  </data>
+  <data name="User_Import_Radius" xml:space="preserve">
+    <value>Radius användarimport</value>
+  </data>
+  <data name="User_Import_Radius_Agree" xml:space="preserve">
+    <value>Jag vill importera alla användare från RADIUS</value>
+  </data>
+  <data name="User_Import_Radius_Agree_Needed" xml:space="preserve">
+    <value>Du måste godkänna importen</value>
+  </data>
+  <data name="User_Import_Radius_Are_You_Sure" xml:space="preserve">
+    <value>Är du säker på att du vill köra importen?</value>
+  </data>
+  <data name="User_Import_Radius_Description" xml:space="preserve">
+    <value>Denna funktion importerar alla användare från RADIUS till CCM som inte redan finns i CCM. Importen är inte möjlig att återställa utan manuell hantering.</value>
+  </data>
+  <data name="User_Import_Radius_Imported" xml:space="preserve">
+    <value>{0} användare har importerats.</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Roll</value>
+  </data>
+  <data name="Edit_UserAgent" xml:space="preserve">
+    <value>Ändra kodarmodell</value>
+  </data>
+  <data name="Location_Groups" xml:space="preserve">
+    <value>Platsgrupper</value>
+  </data>
+  <data name="Identity" xml:space="preserve">
+    <value>Identitet</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Stäng</value>
+  </data>
+  <data name="ConnectedTo" xml:space="preserve">
+    <value>Ansluten till</value>
+  </data>
+  <data name="Web_Interface" xml:space="preserve">
+    <value>Webbgränssnitt</value>
+  </data>
+  <data name="Delete_Call_Are_You_Sure" xml:space="preserve">
+    <value>Är du säker på att du vill ta bort samtalet mellan [from] och [to] som startade [start] från CCM? Observera att samtalet bara tas bort från CCM.</value>
+  </data>
+  <data name="Delete_Call_I_Am_Sure" xml:space="preserve">
+    <value>Ja jag är säker</value>
+  </data>
+  <data name="Delete_Call_I_Have_Checked" xml:space="preserve">
+    <value>Jag har kontrollerat att samtalet verkligen inte pågår</value>
+  </data>
+  <data name="Delete_Region" xml:space="preserve">
+    <value>Ta bort region</value>
+  </data>
+  <data name="Delete_Region_Are_You_Sure" xml:space="preserve">
+    <value>Är du säker på att du vill ta bort denna region?</value>
+  </data>
+  <data name="Edit_Region" xml:space="preserve">
+    <value>Ändra region</value>
+  </data>
+  <data name="New_Region" xml:space="preserve">
+    <value>Ny region</value>
+  </data>
+  <data name="Region" xml:space="preserve">
+    <value>Region</value>
+  </data>
+  <data name="Regions" xml:space="preserve">
+    <value>Regioner</value>
+  </data>
+  <data name="Codec_Type" xml:space="preserve">
+    <value>Kodartyp</value>
+  </data>
+  <data name="Codec_Types" xml:space="preserve">
+    <value>Kodartyper</value>
+  </data>
+  <data name="Delete_Codec_Type" xml:space="preserve">
+    <value>Ta bort kodartyp</value>
+  </data>
+  <data name="Delete_Codec_Type_Are_You_Sure" xml:space="preserve">
+    <value>Är du säker på att du vill ta bort denna kodartyp?</value>
+  </data>
+  <data name="Edit_Codec_Type" xml:space="preserve">
+    <value>Ändra kodartyp</value>
+  </data>
+  <data name="New_Codec_Type" xml:space="preserve">
+    <value>Ny kodartyp</value>
+  </data>
+  <data name="Carrier_Connection_Id" xml:space="preserve">
+    <value>Operatör förbindelse id</value>
+  </data>
+  <data name="Location_Short_Name" xml:space="preserve">
+    <value>Kortnamn</value>
+  </data>
+  <data name="Lock_Account" xml:space="preserve">
+    <value>Lås konto</value>
+  </data>
+  <data name="Unlock_Account" xml:space="preserve">
+    <value>Lås upp konto</value>
+  </data>
+  <data name="Cities" xml:space="preserve">
+    <value>Städer</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>Stad</value>
+  </data>
+  <data name="Delete_City" xml:space="preserve">
+    <value>Ta bort stad</value>
+  </data>
+  <data name="Delete_City_Are_You_Sure" xml:space="preserve">
+    <value>Är du säker på att du vill ta bort denna stad?</value>
+  </data>
+  <data name="Edit_City" xml:space="preserve">
+    <value>Ändra stad</value>
+  </data>
+  <data name="New_City" xml:space="preserve">
+    <value>Ny stad</value>
+  </data>
+  <data name="Color" xml:space="preserve">
+    <value>Färg</value>
+  </data>
+  <data name="Callee" xml:space="preserve">
+    <value>Samtal till</value>
+  </data>
+  <data name="Caller" xml:space="preserve">
+    <value>Samtal från</value>
+  </data>
+  <data name="Call_Duration" xml:space="preserve">
+    <value>Samtalstid</value>
+  </data>
+  <data name="Latest_Closed_Calls" xml:space="preserve">
+    <value>Senast avslutade samtalen</value>
+  </data>
+  <data name="Delete_Call" xml:space="preserve">
+    <value>Ta bort samtal</value>
+  </data>
+  <data name="Delete_MetaType" xml:space="preserve">
+    <value>Ta bort metatyp</value>
+  </data>
+  <data name="Delete_MetaType_Are_You_Sure" xml:space="preserve">
+    <value>Är du säker på att du vill ta bort denna metatyp?</value>
+  </data>
+  <data name="MetaTypes" xml:space="preserve">
+    <value>Metatyper</value>
+  </data>
+  <data name="MetaType_Name" xml:space="preserve">
+    <value>Metatypnamn</value>
+  </data>
+  <data name="MetaType_Value" xml:space="preserve">
+    <value>Värde för metatyp</value>
+  </data>
+  <data name="New_MetaType" xml:space="preserve">
+    <value>Ny metatyp</value>
+  </data>
+  <data name="Wide_Overview" xml:space="preserve">
+    <value>Bred översikt</value>
+  </data>
+  <data name="SpeedTest" xml:space="preserve">
+    <value>Hastighetsmätning</value>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="Codec_Control" xml:space="preserve">
+    <value>Kodarstyrning</value>
+  </data>
+  <data name="Codec_I_Am_Sure" xml:space="preserve">
+    <value>Jag är säker på att jag vill</value>
+  </data>
+  <data name="Hangup" xml:space="preserve">
+    <value>Lägg på</value>
+  </data>
+  <data name="Reboot" xml:space="preserve">
+    <value>Starta om</value>
+  </data>
+  <data name="Api" xml:space="preserve">
+    <value>Api</value>
+  </data>
+  <data name="Codec_Control_Settings" xml:space="preserve">
+    <value>Inställningar kodarkontroll</value>
+  </data>
+  <data name="AudioInputs" xml:space="preserve">
+    <value>Ljudingångar</value>
+  </data>
+  <data name="Inputs" xml:space="preserve">
+    <value>Styrbara ingångar</value>
+  </data>
+  <data name="Lines" xml:space="preserve">
+    <value>Linjer</value>
+  </data>
+  <data name="Call" xml:space="preserve">
+    <value>Samtal</value>
+  </data>
+  <data name="Get" xml:space="preserve">
+    <value>Hämta</value>
+  </data>
+  <data name="Input_No" xml:space="preserve">
+    <value>Ingång nr</value>
+  </data>
+  <data name="Line_Status" xml:space="preserve">
+    <value>Linjestatus</value>
+  </data>
+  <data name="Audio_Mode" xml:space="preserve">
+    <value>Ljudläge</value>
+  </data>
+  <data name="Off" xml:space="preserve">
+    <value>Av</value>
+  </data>
+  <data name="On" xml:space="preserve">
+    <value>På</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Skicka</value>
+  </data>
+  <data name="Turn_On_Off" xml:space="preserve">
+    <value>Slå Av/På</value>
+  </data>
+  <data name="ErrorGettingStatus" xml:space="preserve">
+    <value>Det uppstod ett fel när kodaren skulle kontaktas</value>
+  </data>
+  <data name="LineStatus_Calling" xml:space="preserve">
+    <value>Ringer</value>
+  </data>
+  <data name="LineStatus_ConnectedCalled" xml:space="preserve">
+    <value>Uppkopplad</value>
+  </data>
+  <data name="LineStatus_ConnectedDownloadingFile" xml:space="preserve">
+    <value>ConnectedDownloadingFile</value>
+  </data>
+  <data name="LineStatus_ConnectedReceived" xml:space="preserve">
+    <value>Uppkopplad</value>
+  </data>
+  <data name="LineStatus_ConnectedTestingLine" xml:space="preserve">
+    <value>ConnectedTestingLine</value>
+  </data>
+  <data name="LineStatus_ConnectedUploadingFile" xml:space="preserve">
+    <value>ConnectedUploadingFile</value>
+  </data>
+  <data name="LineStatus_Disconnected" xml:space="preserve">
+    <value>Frånkopplad</value>
+  </data>
+  <data name="LineStatus_Disconnecting" xml:space="preserve">
+    <value>Kopplar ner</value>
+  </data>
+  <data name="LineStatus_Initializing" xml:space="preserve">
+    <value>Initierar</value>
+  </data>
+  <data name="LineStatus_NegotiatingDhcp" xml:space="preserve">
+    <value>Förhandlar om DHCP</value>
+  </data>
+  <data name="LineStatus_NoPhysicalLine" xml:space="preserve">
+    <value>NoPhysicalLine</value>
+  </data>
+  <data name="LineStatus_NotAvailable" xml:space="preserve">
+    <value>Ej tillgänglig</value>
+  </data>
+  <data name="LineStatus_ReceivingCall" xml:space="preserve">
+    <value>Tar emot samtal</value>
+  </data>
+  <data name="LineStatus_Reconnecting" xml:space="preserve">
+    <value>Åtekopplar</value>
+  </data>
+  <data name="No_Codec_Found" xml:space="preserve">
+    <value>Ingen kodare kunde hittas</value>
+  </data>
+  <data name="Unable_To_Connect_To_Codec" xml:space="preserve">
+    <value>Det gick inte att få kontakt med kodaren</value>
+  </data>
+  <data name="Unable_To_Resolve_Address" xml:space="preserve">
+    <value>Det gick inte att matcha adressen till kodaren</value>
+  </data>
+  <data name="Db_Level" xml:space="preserve">
+    <value>dB nivå</value>
+  </data>
+  <data name="Db_Level_Values" xml:space="preserve">
+    <value>dB nivå värden</value>
+  </data>
+  <data name="Max" xml:space="preserve">
+    <value>Max</value>
+  </data>
+  <data name="Min" xml:space="preserve">
+    <value>Min</value>
+  </data>
+  <data name="DisplayName" xml:space="preserve">
+    <value>Visningsnamn</value>
+  </data>
+  <data name="Codec_Reboot_First_Confirm" xml:space="preserve">
+    <value>Jag är säker på att jag vill starta om kodaren</value>
+  </data>
+  <data name="Codec_Reboot_Second_Confirm" xml:space="preserve">
+    <value>Jag har kontrollerat att kodaren inte används</value>
+  </data>
+  <data name="Requires_Activex" xml:space="preserve">
+    <value>Kräver en ActiveX kompatibel webbläsare</value>
+  </data>
+  <data name="Statistics" xml:space="preserve">
+    <value>Statistik</value>
+  </data>
+  <data name="Sip_Accounts" xml:space="preserve">
+    <value>SIP-konton</value>
+  </data>
+  <data name="Download_Csv" xml:space="preserve">
+    <value>Ladda ner csv-fil</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>Från</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>Till</value>
+  </data>
+  <data name="Average" xml:space="preserve">
+    <value>Medel</value>
+  </data>
+  <data name="Calls" xml:space="preserve">
+    <value>Samtal</value>
+  </data>
+  <data name="Call_Time" xml:space="preserve">
+    <value>Samtalstid</value>
+  </data>
+  <data name="Call_Simultaneous" xml:space="preserve">
+    <value>Samtidiga samtal</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Datum</value>
+  </data>
+  <data name="Load" xml:space="preserve">
+    <value>Ladda</value>
+  </data>
+  <data name="Longest" xml:space="preserve">
+    <value>Längst</value>
+  </data>
+  <data name="Shortest" xml:space="preserve">
+    <value>Kortast</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Totalt</value>
+  </data>
+  <data name="Step" xml:space="preserve">
+    <value>Steg</value>
+  </data>
+  <data name="Codec_Presets" xml:space="preserve">
+    <value>Kodar-presets</value>
+  </data>
+  <data name="New_Preset" xml:space="preserve">
+    <value>Ny preset</value>
+  </data>
+  <data name="Delete_Preset" xml:space="preserve">
+    <value>Ta bort preset</value>
+  </data>
+  <data name="Delete_Preset_Are_You_Sure" xml:space="preserve">
+    <value>Är du säker på att du vill ta bort denna preset?</value>
+  </data>
+  <data name="Edit_Preset" xml:space="preserve">
+    <value>Ändra preset</value>
+  </data>
+  <data name="Loaded_Preset" xml:space="preserve">
+    <value>Laddad preset</value>
+  </data>
+  <data name="CodecGPO" xml:space="preserve">
+    <value>GPO</value>
+  </data>
+  <data name="No_Gpo_Found" xml:space="preserve">
+    <value>Ingen GPO kunde hittas</value>
+  </data>
+  <data name="Gpo_Names" xml:space="preserve">
+    <value>GPO namnlista</value>
+  </data>
+  <data name="Open_User_Interface" xml:space="preserve">
+    <value>Visa länk för alla</value>
+  </data>
+  <data name="Open_User_Interface_Description" xml:space="preserve">
+    <value>Markera kryssrutan för att visa länk till användargränssnitt för alla användare (och inte bara autenticerade användare)</value>
+  </data>
+  <data name="Use_Scrollbars" xml:space="preserve">
+    <value>Rullningslister</value>
+  </data>
+  <data name="CidrV6" xml:space="preserve">
+    <value>CIDR IPv6</value>
+  </data>
+  <data name="NetV6" xml:space="preserve">
+    <value>Nät IPv6</value>
+  </data>
+  <data name="Call_Sim24Hour" xml:space="preserve">
+    <value>Samtidiga samtal per timme</value>
+  </data>
+  <data name="Location_Select" xml:space="preserve">
+    <value>Välj plats</value>
+  </data>
+  <data name="Hour" xml:space="preserve">
+    <value>Timme</value>
+  </data>
+  <data name="Stats_MaxInPeriod" xml:space="preserve">
+    <value>Max under perioden</value>
+  </data>
+  <data name="Stats_MedianInPeriod" xml:space="preserve">
+    <value>Median för perioden</value>
+  </data>
+  <data name="Stats_NumberOfCalls" xml:space="preserve">
+    <value>Samtal (antal)</value>
+  </data>
+  <data name="Stats_NumberOfSimultaneousCalls" xml:space="preserve">
+    <value>Samtidiga samtal (maxantal)</value>
+  </data>
+  <data name="Stats_TimeOfDay" xml:space="preserve">
+    <value>Tid på dygnet</value>
+  </data>
+  <data name="Stats_TotalCallTimeInMinutes" xml:space="preserve">
+    <value>Total samtalstid (minuter)</value>
+  </data>
+  <data name="Stats_SimultaneousCallsToolTip1" xml:space="preserve">
+    <value>{0} samtidiga samtal vid ett tillfälle:</value>
+  </data>
+  <data name="Stats_SimultaneousCallsToolTipM" xml:space="preserve">
+    <value>{0} samtidiga samtal vid {1} tillfällen:</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>ProfilGrupp</value>
+  </data>
+  <data name="Add_Comment" xml:space="preserve">
+    <value>Dubbelklicka för att lägga till kommentar</value>
+  </data>
+  <data name="Socket_Connection_Is_Lost_With_Server" xml:space="preserve">
+    <value>Anslutningen till CCM är bruten</value>
+  </data>
+  <data name="Socket_Connection_Reconnect_Attempts" xml:space="preserve">
+    <value>Återanslutningsförsök</value>
+  </data>
+  <data name="Identifier_Required" xml:space="preserve">
+    <value>Du måste ange en identifierare</value>
+  </data>
+  <data name="ProfileGroup_Required" xml:space="preserve">
+    <value>Du måste ange en profilgrupp</value>
+  </data>
+  <data name="Edit_ProfileGroup" xml:space="preserve">
+    <value>Ändra profilgrupp</value>
+  </data>
+</root>

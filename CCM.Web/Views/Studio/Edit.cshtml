@@ -1,0 +1,14 @@
+﻿@model CCM.Web.Models.Studio.StudioViewModel
+
+@{
+    ViewBag.Title = "Ändra studio";
+}
+
+<h2>Ändra studio</h2>
+<hr />
+
+@using (Html.BeginForm("Edit", "Studio", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Partial("_StudioForm", Model)
+}

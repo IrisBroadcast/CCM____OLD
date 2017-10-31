@@ -1,0 +1,16 @@
+//
+// Local variables
+// --------------------------------------------------
+
+// Medium screen / desktop
+//** Deprecated `@screen-md` as of v3.0.1
+@screen-md:                  925px; // INFO: Local change from default. Lost if bootstrap is updated!!!
+@screen-md-min:              @screen-md;
+//** Deprecated `@screen-desktop` as of v3.0.1
+@screen-desktop:             @screen-md-min;
+
+// So media queries don't overlap when required, provide a maximum
+@screen-sm-max:              (@screen-md-min - 1);
+
+@icon-font-path: "/Content/fonts/";
+@font-path: "/Content/fonts/";

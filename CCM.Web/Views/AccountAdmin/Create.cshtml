@@ -1,0 +1,190 @@
+﻿@using CCM.Core.Security
+@model CCM.Web.Models.AccountAdmin.UserFormViewModel
+
+@{
+    ViewBag.Title = Resources.New_Account;
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+        $('input:radio').change(function (e) {
+            if (this.value === "SIP") {
+                showSipFields();
+            } else {
+                showCcmFields();
+            }
+
+        });
+
+        $(document).ready(function () {
+            if ($("input:radio:checked").val() === "SIP") {
+                showSipFields();
+            } else {
+                showCcmFields();
+            }
+            
+        });
+
+        function generatePassword() {
+            var length = 13;
+            var alfabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#%";
+
+            var password = "";
+            for (var i = 0; i < length; ++i) {
+                password += alfabet.charAt(Math.floor(Math.random() * alfabet.length));
+            }
+
+            $('#Password').val(password);
+            $('#PasswordConfirm').val(password);
+            $('#generatedPassword').val(password);
+            $('#generatedWrapper').removeClass('hidden');
+        }
+
+        function showSipFields() {
+            $('#firstNameGroup').hide();
+            $('#lastNameGroup').hide();
+            $('#roleGroup').hide();
+            $('#ownerGroup').show();
+            $('#codecTypeGroup').show();
+            $('#displayNameGroup').show();
+        }
+
+        function showCcmFields() {
+            $('#firstNameGroup').show();
+            $('#lastNameGroup').show();
+            $('#roleGroup').show();
+            $('#ownerGroup').hide();
+            $('#codecTypeGroup').hide();
+            $('#displayNameGroup').hide();
+        }
+    </script>
+}
+
+<h2>@Resources.New_Account</h2>
+<hr />
+@using (Html.BeginForm("Create", "AccountAdmin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.ValidationSummary(false)
+
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <!-- TODO: Label for every radio button instead. And SIP as default is bad -->
+        <!--@Html.LabelFor(m => m.UserType, new { @class = "col-md-2 control-label" })-->
+
+        <label class="col-md-2 control-label">
+            @Resources.Account_Type
+        </label>
+
+        <div class="col-md-10">
+            @foreach (var type in Enum.GetValues(typeof(UserType)))
+            {
+                <div class="ccm-form-group--radio">
+                    <label>
+                        <div class="ccm-form-group-radio--btn">
+                            @Html.RadioButtonFor(m => m.UserType, type, new { @checked = type.ToString() == "SIP" })
+                        </div>
+                        <div class="ccm-form-group-radio--text">
+                            @Resources.ResourceManager.GetString(type.ToString())
+                        </div>
+                    </label>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group" id="firstNameGroup">
+        @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group" id="lastNameGroup">
+        @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group" id="displayNameGroup">
+        @Html.LabelFor(m => m.DisplayName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control" })
+        </div>
+    </div>
+
+    if (Model.Roles != null && Model.Roles.Count > 0)
+    {
+        <div class="form-group" id="roleGroup">
+            @Html.LabelFor(m => m.RoleId, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.RoleId, new SelectList(Model.Roles, "Id", "Name"), new { @class = "form-control" })
+            </div>
+        </div>
+    }
+    else
+    {
+        @Html.HiddenFor(m => m.RoleId)
+    }
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Comment, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Comment, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group" id="ownerGroup">
+        @Html.LabelFor(m => m.OwnerId, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.OwnerId, new SelectList(Model.Owners, "Id", "Name"), new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group" id="codecTypeGroup">
+        @Html.LabelFor(m => m.CodecTypeId, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.CodecTypeId, new SelectList(Model.CodecTypes, "Id", "Name"), new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div id="generatedWrapper" class="form-group hidden">
+        <label class="col-md-2 control-label">@Resources.Generated_Password</label>
+        <div class="col-md-4">
+            <input id="generatedPassword" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control--horizontal" })
+            <button id="pwGen" type="button" onclick="generatePassword()" class="btn btn-info">@Resources.Generate_Password</button>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.PasswordConfirm, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.PasswordConfirm, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            @Html.ActionLink(Resources.Cancel, "Index", "AccountAdmin", null, new { @class = "btn btn-default" })
+            <button type="submit" class="btn btn-primary">@Resources.Save</button>
+        </div>
+    </div>
+
+    @Html.HiddenFor(m => m.Id)
+}

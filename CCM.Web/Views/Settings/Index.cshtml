@@ -1,0 +1,35 @@
+﻿@model CCM.Web.Models.SettingsViewModel
+
+@{
+    ViewBag.Title = Resources.Settings;
+}
+
+<h2>@Resources.Settings</h2>
+<hr/>
+
+@using (Html.BeginForm("Save", "Settings", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    int i = 0;
+    foreach (var setting in Model.Settings)
+    {
+        <div class="form-group">
+            <input type="hidden" name="Settings[@i].Id" value="@setting.Id"/>
+            
+            <label class = "col-md-3 control-label" name="Settings[@i].Name">@setting.Name</label>
+            <div class="col-md-2">
+                <input type="text" class="form-control" name="Settings[@i].Value" value="@setting.Value" />
+            </div>
+            <div class="col-md-6">
+                @setting.Description
+            </div>
+        </div>
+        i++;
+    }
+
+    <div class="form-group">
+        <div class="col-md-offset-3 col-md-9">
+            <button type="submit" class="btn btn-primary">@Resources.Save</button>
+        </div>
+    </div>
+}

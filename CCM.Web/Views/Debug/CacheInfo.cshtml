@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "Cache info";
+}
+
+<style>
+    table {
+        border: 1px black solid;
+    }
+
+    td {
+        border: 1px black solid;
+    }
+</style>
+
+<h2>Cache info</h2>
+<input type="checkbox" id="autorefresh">Ladda om
+<hr />
+<div id="cacheDiv"></div>
+
+@section Scripts {
+    <script>
+
+        var timer = null;
+
+        var reload = function () {
+            $('#cacheDiv').load('/debug/getcacheinfo');
+        }
+
+        $("#autorefresh").change(function () {
+            if (this.checked) {
+                startTimer();
+            } else {
+                stopTimer();
+            }
+        });
+
+        var startTimer = function() {
+            timer = setInterval(reload, 1000);
+        }
+
+        var stopTimer = function() {
+            clearInterval(timer);
+            timer = null;
+        }
+
+        $(document).ready(function () {
+            reload();
+        });
+
+    </script>
+}
